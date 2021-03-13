@@ -1,4 +1,5 @@
 import numpy as np
+import requester as req
 
 
 class Game:
@@ -25,7 +26,7 @@ class Game:
 		# initialize maximizer's coordinates
 		max_x, max_y = None, None
 		# if game is finished, evaluate scores
-		if self.is_game_finished:
+		if self.is_game_finished():
 			return self.evaluate_game()
 
 		for i in range(0, self.n):
@@ -53,7 +54,7 @@ class Game:
 		return max_value, max_x, max_y
 
 	def min_value(self, alpha: float, beta: float) -> tuple:
-		"""Player X, i.e. opponent."""
+		"""Player X, i.e. human."""
 		min_value = float('inf')
 		# initialize minimizer's coordinates
 		min_x, min_y = None, None
@@ -85,12 +86,35 @@ class Game:
 
 		return min_value, min_x, min_y
 
-	def play_game(self):
-		# -- #
 
+def play_game(opponent_team_id: int):
+	"""Play the game."""
+	while True:
+		game_id = req.create_game(opponent_team_id)
+		game = Game(n = 12, m = 6)
+		max_value, max_x, max_y = game.max_value(alpha = -float('inf'), beta = float('inf'))
+		print("AI makes this move: {}, {}".format(max_x, max_y))
+		req.make_a_move(game_id, (max_x, max_y))
+		# now update the game's current board state with the moves made by AI and opponent
+		# req.get_move_list()
+		# req.get_board_map()
+		if game.is_game_finished():
+			print("Game over!")
+			break
 
 
 
 def main():
 	# -- #
-	# useful resource for requests handling: https://github.com/Eyasluna/CSCI_6511_AI_spring2020/blob/master/project_2/tictactoe.py
+	
+
+
+
+
+
+
+
+
+
+
+
