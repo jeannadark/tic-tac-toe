@@ -96,16 +96,20 @@ def play_game(opponent_team_id: int):
 		print("AI makes this move: {}, {}".format(max_x, max_y))
 		req.make_a_move(game_id, (max_x, max_y))
 		# now update the game's current board state with the moves made by AI and opponent
-		# req.get_move_list()
-		# req.get_board_map()
+		moves = req.get_move_list()['moves']
+		for move in moves:
+			symbol = move['symbol']
+			x = int(move['move'].split(',')[0])
+			y = int(move['move'].split(',')[1])
+			game.curr_board_state[x][y] = symbol
+		# print the board
+		req.get_board_map()
 		if game.is_game_finished():
 			print("Game over!")
 			break
 
 
 
-def main():
-	# -- #
 	
 
 
