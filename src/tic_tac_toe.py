@@ -1,29 +1,28 @@
 class Game:
 	def __init__(self, n, m):
-		self.n = n
-		self.m = m
-		self.board = # n by m empty grid
+		# -- #
 	
-	def make_move():
-		# --- #
-
-	def winning_checker():
+	def draw_board(self):
 		# -- #
 
-	def get_possible_actions():
+	def is_valid_move(self, x, y):
 		# -- #
 
-	def max_value():
+	def is_game_finished(self):
 		# -- #
 
-	def min_value():
+	def max_value(self, alpha, beta):
 		# -- #
 
-	def evaluate():
+	def min_value(self, alpha, beta):
 		# -- #
 
-	def alpha_beta():
+	def play_game(self):
 		# -- #
 
 
-# useful resource: https://github.com/Eyasluna/CSCI_6511_AI_spring2020/blob/master/project_2/tictactoe.py
+
+
+def main():
+	# -- #
+	# useful resource for requests handling: https://github.com/Eyasluna/CSCI_6511_AI_spring2020/blob/master/project_2/tictactoe.py
