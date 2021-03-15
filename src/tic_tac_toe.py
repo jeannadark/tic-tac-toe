@@ -21,7 +21,7 @@ class Game:
 		# -- #
 
 	def max_value(self, alpha: float, beta: float) -> tuple:
-		"""Player O, i.e. AI."""
+		"""Player X, i.e. AI."""
 		max_value = -float('inf')
 		# initialize maximizer's coordinates
 		max_x, max_y = None, None
@@ -33,7 +33,7 @@ class Game:
 			for j in range(0, self.m):
 				# if empty, make a move and call minimizer
 				if self.curr_board_state[i][j] == 0:
-					self.curr_board_state[i][j] = "O"
+					self.curr_board_state[i][j] = "X"
 					v, min_x, min_y = self.min_value(alpha, beta)
 
 					# maximize further
@@ -54,7 +54,7 @@ class Game:
 		return max_value, max_x, max_y
 
 	def min_value(self, alpha: float, beta: float) -> tuple:
-		"""Player X, i.e. human."""
+		"""Player O, i.e. human."""
 		min_value = float('inf')
 		# initialize minimizer's coordinates
 		min_x, min_y = None, None
@@ -66,7 +66,7 @@ class Game:
 			for j in range(0, self.m):
 				# if empty, make a move and call maximizer
 				if self.curr_board_state[i][j] == 0:
-					self.curr_board_state[i][j] = "X"
+					self.curr_board_state[i][j] = "O"
 					v, max_x, max_y = self.max_value(alpha, beta)
 
 					# minimize further
@@ -87,16 +87,19 @@ class Game:
 		return min_value, min_x, min_y
 
 
-def play_game(opponent_team_id: int):
+def play_game(opponent_team_id: int, n: int, m: int):
 	"""Play the game."""
 	while True:
 		game_id = req.create_game(opponent_team_id)
-		game = Game(n = 12, m = 6)
+		game = Game(n = n, m = m)
 		max_value, max_x, max_y = game.max_value(alpha = -float('inf'), beta = float('inf'))
 		print("AI makes this move: {}, {}".format(max_x, max_y))
 		req.make_a_move(game_id, (max_x, max_y))
-		# now update the game's current board state with the moves made by AI and opponent
 		moves = req.get_move_list()['moves']
+		# wait for the opponent to make a move
+		while req.get_move_list == moves:
+			time.sleep(2)
+		# now update the game's current board state with the moves made by AI and opponent
 		for move in moves:
 			symbol = move['symbol']
 			x = int(move['move'].split(',')[0])
