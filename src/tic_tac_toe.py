@@ -112,16 +112,9 @@ def play_game(opponent_team_id: int, n: int, m: int):
 			break
 
 
+if __name__ == '__main__':
 
-	
-
-
-
-
-
-
-
-
-
-
-
+	# add exception handlers later
+	opponent_team_id = int(input("Please enter opponent team id: \n"))
+	n, m = input("Enter n and m for an n x m game: ").split()
+	play_game(opponent_team_id, int(n), int(m))
