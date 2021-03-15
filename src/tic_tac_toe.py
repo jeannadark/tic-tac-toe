@@ -97,7 +97,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
 		req.make_a_move(game_id, (max_x, max_y))
 		moves = req.get_move_list()['moves']
 		# wait for the opponent to make a move
-		while req.get_move_list == moves:
+		while req.get_move_list() == moves:
 			time.sleep(2)
 		# now update the game's current board state with the moves made by AI and opponent
 		for move in moves:
