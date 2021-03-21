@@ -5,14 +5,17 @@ import requester as req
 class Game:
 	def __init__(self, n, m):
 		self.n = n
-		self.m = m
-		self.curr_board_state = np.zeros((n, m))
+		self.target = m
+		self.curr_board_state = np.zeros((n, n))
 	
 	def draw_board(self):
-		# -- #
+		for row in self.curr_board_state:
+			for column in self.curr_board_state:
+				print(column + ' ')
+			print('\n')
 
 	def is_valid_move(self, x, y):
-		# -- #
+		return self.curr_board_state[x][y]==0
 
 	def is_game_finished(self):
 		# -- #
@@ -94,7 +97,8 @@ def play_game(opponent_team_id: int, n: int, m: int):
 		game = Game(n = n, m = m)
 		max_value, max_x, max_y = game.max_value(alpha = -float('inf'), beta = float('inf'))
 		print("AI makes this move: {}, {}".format(max_x, max_y))
-		req.make_a_move(game_id, (max_x, max_y))
+		if self.is_valid_move(max_x, max_y):
+			req.make_a_move(game_id, (max_x, max_y))
 		moves = req.get_move_list()['moves']
 		# wait for the opponent to make a move
 		while req.get_move_list() == moves:
@@ -109,6 +113,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
 		req.get_board_map()
 		if game.is_game_finished():
 			print("Game over!")
+			self.draw_board()
 			break
 
 
