@@ -108,6 +108,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
 		# wait for the opponent to make a move
 		while req.get_move_list() == moves:
 			time.sleep(2)
+		game.nmoves += 1
 		# now update the game's current board state with the moves made by AI and opponent
 		for move in moves:
 			symbol = move['symbol']
