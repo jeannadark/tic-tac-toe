@@ -38,7 +38,7 @@ def get_move_list(game_id: int, count: int = 2):
 	"""Get list of recent moves made for the game instance. Defaults to 2 recent moves."""
 	get_moves_url = "https://www.notexponential.com/aip2pgaming/api/index.php?type=moves&gameId=" + str(game_id) + "&count=" + str(count)
 	payload={}
-		headers = {
+	headers = {
 		'x-api-key': API_KEY,
 		'userId': USERID,
 	}

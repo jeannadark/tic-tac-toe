@@ -7,6 +7,7 @@ class Game:
 		self.n = n
 		self.target = m
 		self.curr_board_state = np.zeros((n, n))
+		self.nmoves = 0
 	
 	def draw_board(self):
 		for row in self.curr_board_state:
@@ -14,14 +15,17 @@ class Game:
 				print(column + ' ')
 			print('\n')
 
-	def is_valid_move(self, x, y):
-		return self.curr_board_state[x][y]==0
+	# def is_valid_move(self, x, y):
+	# 	return self.curr_board_state[x][y]==0
 
 	def is_game_finished(self):
 		# -- #
+		# if self.nmoves == self.n**2:
+		# 	return True
+
 
 	def evaluate_game(self):
-		# -- #
+		# who won, how much time
 
 	def max_value(self, alpha: float, beta: float) -> tuple:
 		"""Player X, i.e. AI."""
@@ -33,7 +37,7 @@ class Game:
 			return self.evaluate_game()
 
 		for i in range(0, self.n):
-			for j in range(0, self.m):
+			for j in range(0, self.n):
 				# if empty, make a move and call minimizer
 				if self.curr_board_state[i][j] == 0:
 					self.curr_board_state[i][j] = "X"
@@ -66,7 +70,7 @@ class Game:
 			return self.evaluate_game()
 
 		for i in range(0, self.n):
-			for j in range(0, self.m):
+			for j in range(0, self.n):
 				# if empty, make a move and call maximizer
 				if self.curr_board_state[i][j] == 0:
 					self.curr_board_state[i][j] = "O"
@@ -97,8 +101,9 @@ def play_game(opponent_team_id: int, n: int, m: int):
 		game = Game(n = n, m = m)
 		max_value, max_x, max_y = game.max_value(alpha = -float('inf'), beta = float('inf'))
 		print("AI makes this move: {}, {}".format(max_x, max_y))
-		if self.is_valid_move(max_x, max_y):
-			req.make_a_move(game_id, (max_x, max_y))
+		# if self.is_valid_move(max_x, max_y):
+		req.make_a_move(game_id, (max_x, max_y))
+		game.nmoves += 1
 		moves = req.get_move_list()['moves']
 		# wait for the opponent to make a move
 		while req.get_move_list() == moves:
@@ -121,5 +126,5 @@ if __name__ == '__main__':
 
 	# add exception handlers later
 	opponent_team_id = int(input("Please enter opponent team id: \n"))
-	n, m = input("Enter n and m for an n x m game: ").split()
+	n, m = input("Enter n and m for an n x n game with target m: ").split()
 	play_game(opponent_team_id, int(n), int(m))
