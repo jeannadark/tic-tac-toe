@@ -19,7 +19,7 @@ class Game:
     #   return self.curr_board_state[x][y]==0
 
     def is_game_finished(self, player):
-        for indexes in checkIndexes(self.target):
+        for indexes in self.checkIndexes(self.target):
             if all(self.curr_board_state[r][c] == player for r, c in indexes):
                 return True
         return False
