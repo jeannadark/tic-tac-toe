@@ -70,8 +70,6 @@ class Game:
                         max_y = j
                     # undo move
                     self.curr_board_state[i][j] = '0.0'
-                    self.draw_board()
-                    print('\n')
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
