@@ -6,7 +6,7 @@ class Game:
     def __init__(self, n, m):
         self.n = n
         self.target = m
-        self.curr_board_state = np.zeros((n, n))
+        self.curr_board_state = np.zeros((n, n)).astype(str)
         self.nmoves = 0
 
     def draw_board(self):
@@ -24,7 +24,7 @@ class Game:
                 return True
         return False
 
-    def checkIndexes(n):
+    def checkIndexes(self, n):
         for r in range(n):
             yield [(r, c) for c in range(n)]
 
@@ -54,7 +54,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.curr_board_state[i][j] == 0:
+                if self.curr_board_state[i][j] == '0':
                     self.curr_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta)
 
@@ -64,7 +64,7 @@ class Game:
                         max_x = i
                         max_y = j
                     # undo move
-                    self.curr_board_state[i][j] = 0
+                    self.curr_board_state[i][j] = '0'
 
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -87,7 +87,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.curr_board_state[i][j] == 0:
+                if self.curr_board_state[i][j] == '0':
                     self.curr_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
 
@@ -97,7 +97,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.curr_board_state[i][j] = 0
+                    self.curr_board_state[i][j] = '0'   
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -119,9 +119,9 @@ def play_game(opponent_team_id: int, n: int, m: int):
         # if self.is_valid_move(max_x, max_y):
         req.make_a_move(game_id, (max_x, max_y))
         game.nmoves += 1
-        moves = req.get_move_list()["moves"]
+        moves = req.get_move_list(game_id)["moves"]
         # wait for the opponent to make a move
-        while req.get_move_list() == moves:
+        while req.get_move_list(game_id) == moves:
             time.sleep(2)
         game.nmoves += 1
         # now update the game's current board state with the moves made by AI and opponent
@@ -131,7 +131,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
             y = int(move["move"].split(",")[1])
             game.curr_board_state[x][y] = symbol
         # print the board
-        req.get_board_map()
+        req.get_board_map(game_id)
         if game.is_game_finished():
             print("Game over!")
             game.draw_board()
