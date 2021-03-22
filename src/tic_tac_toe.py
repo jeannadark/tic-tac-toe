@@ -134,7 +134,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         req.get_board_map()
         if game.is_game_finished():
             print("Game over!")
-            self.draw_board()
+            game.draw_board()
             break
 
 
