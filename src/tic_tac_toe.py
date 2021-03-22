@@ -70,6 +70,8 @@ class Game:
                         max_y = j
                     # undo move
                     self.curr_board_state[i][j] = '0.0'
+                    self.draw_board()
+                    print('\n')
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -121,25 +123,28 @@ def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
     while True:
         game_id = req.create_game(opponent_team_id)
+        print(game_id)
         game = Game(n=n, m=m)
-        max_value, max_x, max_y = game.max_value(alpha=-float("inf"), beta=float("inf"))
-        print("AI makes this move: {}, {}".format(max_x, max_y))
-        # if self.is_valid_move(max_x, max_y):
-        req.make_a_move(game_id, (max_x, max_y))
-        game.nmoves += 1
-        moves = req.get_move_list(game_id)["moves"]
-        # wait for the opponent to make a move
-        while req.get_move_list(game_id)['moves'] == moves:
-            print(req.get_move_list(game_id))
-            time.sleep(2)
-        updated_moves = req.get_move_list(game_id)
-        game.nmoves += 1
-        # now update the game's current board state with the moves made by AI and opponent
-        for move in updated_moves['moves']:
-            symbol = move["symbol"]
-            x = int(move["move"].split(",")[0])
-            y = int(move["move"].split(",")[1])
-            game.curr_board_state[x][y] = symbol
+        while not game.is_game_finished("X") or game.is_game_finished("O"):
+            game.draw_board()
+            max_value, max_x, max_y = game.max_value(alpha=-float("inf"), beta=float("inf"))
+            print("AI makes this move: {}, {}".format(max_x, max_y))
+            req.make_a_move(game_id, (max_x, max_y))
+            game.nmoves += 1
+            moves = req.get_move_list(game_id)["moves"]
+            # wait for the opponent to make a move
+            while req.get_move_list(game_id)['moves'] == moves:
+                # print(req.get_move_list(game_id))
+                time.sleep(2)
+            updated_moves = req.get_move_list(game_id)
+            game.nmoves += 1
+            # now update the game's current board state with the moves made by AI and opponent
+            print(updated_moves['moves'])
+            for move in updated_moves['moves']:
+                symbol = move["symbol"]
+                x = int(move["move"].split(",")[0])
+                y = int(move["move"].split(",")[1])
+                game.curr_board_state[x][y] = symbol
         # print the board
         req.get_board_map(game_id)
         if game.is_game_finished("X"):
