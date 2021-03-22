@@ -1,5 +1,6 @@
 import numpy as np
 import requester as req
+import time
 
 
 class Game:
@@ -10,10 +11,11 @@ class Game:
         self.nmoves = 0
 
     def draw_board(self):
-        for row in self.curr_board_state:
-            for column in self.curr_board_state:
-                print(column + " ")
-            print("\n")
+        for row in range(self.n):
+            r = ''
+            for column in range(self.n):
+                r = r + f" {self.curr_board_state[row][column]} |"
+            print(r)
 
     # def is_valid_move(self, x, y):
     #   return self.curr_board_state[x][y]==0
@@ -49,14 +51,17 @@ class Game:
         max_x, max_y = None, None
         # if game is finished, evaluate scores
         if self.is_game_finished("X"):
-            return self.evaluate_game("X")
+            return None, None, self.evaluate_game("X")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.curr_board_state[i][j] == '0':
+                if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta)
+
+                    if v==None and min_x==None:
+                        break
 
                     # maximize further
                     if v > max_value:
@@ -64,8 +69,8 @@ class Game:
                         max_x = i
                         max_y = j
                     # undo move
-                    self.curr_board_state[i][j] = '0'
-
+                    self.curr_board_state[i][j] = '0.0'
+                    # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
                         return max_value, max_x, max_y
@@ -81,15 +86,18 @@ class Game:
         # initialize minimizer's coordinates
         min_x, min_y = None, None
         # if game is finished, evaluate scores
-        if self.is_game_finished:
-            return self.evaluate_game()
+        if self.is_game_finished("O"):
+            return None, None, self.evaluate_game("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.curr_board_state[i][j] == '0':
+                if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
+
+                    if v==None and max_x==None:
+                        break
 
                     # minimize further
                     if v < min_value:
@@ -97,7 +105,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.curr_board_state[i][j] = '0'   
+                    self.curr_board_state[i][j] = '0.0'   
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -121,19 +129,27 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.nmoves += 1
         moves = req.get_move_list(game_id)["moves"]
         # wait for the opponent to make a move
-        while req.get_move_list(game_id) == moves:
+        while req.get_move_list(game_id)['moves'] == moves:
+            print(req.get_move_list(game_id))
             time.sleep(2)
+        updated_moves = req.get_move_list(game_id)
         game.nmoves += 1
         # now update the game's current board state with the moves made by AI and opponent
-        for move in moves:
+        for move in updated_moves['moves']:
             symbol = move["symbol"]
             x = int(move["move"].split(",")[0])
             y = int(move["move"].split(",")[1])
             game.curr_board_state[x][y] = symbol
         # print the board
         req.get_board_map(game_id)
-        if game.is_game_finished("X") or game.is_game_finished("Y"):
+        if game.is_game_finished("X"):
             print("Game over!")
+            print(game.evaluate_game("X"))
+            game.draw_board()
+            break
+        elif game.is_game_finished("O"):
+            print("Game over!")
+            print(game.evaluate_game("O"))
             game.draw_board()
             break
 

@@ -53,7 +53,7 @@ def make_a_move(game_id: int, move: tuple):
     conn.request("POST", '/aip2pgaming/api/index.php', payload, headers)
     response = conn.getresponse()
     data = response.read()
-    print(ast.literal_eval(data.decode('utf-8')))
+    # print(ast.literal_eval(data.decode('utf-8')))
 
 
 def get_move_list(game_id: int, count: int = 2):
@@ -74,7 +74,8 @@ def get_move_list(game_id: int, count: int = 2):
     conn.request("GET", get_moves_url, payload, headers)
     response = conn.getresponse()
     data = response.read()
-    print(data)
+    # print(data)
+    # print(ast.literal_eval(data.decode('utf-8')))
 
     return ast.literal_eval(data.decode('utf-8'))
 
@@ -93,4 +94,4 @@ def get_board_map(game_id: int):
     response = conn.getresponse()
     data = response.read()
 
-    print(data)
+    # print(data)
