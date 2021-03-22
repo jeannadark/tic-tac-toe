@@ -132,7 +132,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
             game.curr_board_state[x][y] = symbol
         # print the board
         req.get_board_map(game_id)
-        if game.is_game_finished():
+        if game.is_game_finished("X") or game.is_game_finished("Y"):
             print("Game over!")
             game.draw_board()
             break
