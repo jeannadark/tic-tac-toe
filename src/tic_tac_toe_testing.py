@@ -36,12 +36,14 @@ class Game:
         if is_won and player == 'O':
             return (0, 0, -1)
 
-    def is_end_of_game(self):
+    def is_end_of_game(self, depth: int):
         if self.is_tie() is not None:
             return True
         elif self.is_won("X") is not None:
             return True
         elif self.is_won("O") is not None:
+            return True
+        elif depth == 0:
             return True
         return False
 
@@ -53,27 +55,27 @@ class Game:
         yield [(i, i) for i in range(n)]
         yield [(i, n - 1 - i) for i in range(n)]
 
-    def max_value(self, alpha: float, beta: float) -> tuple:
+    def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
         max_value = -2
         # initialize maximizer's coordinates
         max_x, max_y = None, None
 
-        result = self.is_tie()
-        if result is not None:
-            return result
-        elif self.is_won("X") is not None:
-            return self.is_won("X")
-        elif self.is_won("O") is not None:
-            return self.is_won("O")
+        if self.is_end_of_game(depth):
+            if self.is_tie() is not None:
+                return self.is_tie()
+            elif self.is_won("X") is not None:
+                return self.is_won("X")
+            elif self.is_won("O") is not None:
+                return self.is_won("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
                 if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "X"
-                    v, min_x, min_y = self.min_value(alpha, beta)
-
+                    v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
+                    print(max_value)
                     # maximize further
                     if v > max_value:
                         max_value = v
@@ -91,26 +93,27 @@ class Game:
 
         return max_value, max_x, max_y
 
-    def min_value(self, alpha: float, beta: float) -> tuple:
+    def min_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player O, i.e. our code."""
         min_value = 2
         # initialize minimizer's coordinates
         min_x, min_y = None, None
 
-        result = self.is_tie()
-        if result is not None:
-            return result
-        elif self.is_won("X") is not None:
-            return self.is_won("X")
-        elif self.is_won("O") is not None:
-            return self.is_won("O")
+        if self.is_end_of_game(depth):
+            if self.is_tie() is not None:
+                return self.is_tie()
+            elif self.is_won("X") is not None:
+                return self.is_won("X")
+            elif self.is_won("O") is not None:
+                return self.is_won("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
                 if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "O"
-                    v, max_x, max_y = self.max_value(alpha, beta)
+                    v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
+                    print(min_value)
                     # minimize further
                     if v < min_value:
                         min_value = v
@@ -131,10 +134,11 @@ class Game:
 
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
+    max_depth = 5
     game = Game(n=n, m=m)
-    while not game.is_end_of_game():
+    while not game.is_end_of_game(max_depth):
         game.copy_board_state = deepcopy(game.curr_board_state)
-        min_value, min_x, min_y = game.min_value(alpha=-2, beta=2)
+        min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth = max_depth)
         if game.curr_board_state[min_x][min_y] != '0.0':
             print("Incorrect move made by your code!")
             break
@@ -151,8 +155,9 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[x][y] = "X"
         game.nmoves += 1
         game.draw_board()
+        max_depth = max_depth - 1
 
-    if game.is_end_of_game():
+    if game.is_end_of_game(max_depth):
         print("Game over!")
         result = game.is_tie()
         if result is not None:
