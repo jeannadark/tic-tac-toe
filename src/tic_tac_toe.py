@@ -19,9 +19,6 @@ class Game:
                 r = r + f" {self.curr_board_state[row][column]} |"
             print(r)
 
-    # def is_valid_move(self, x, y):
-    #   return self.curr_board_state[x][y]==0
-
     def is_game_finished(self, player):
         for indexes in self.checkIndexes(self.target):
             if all(self.curr_board_state[r][c] == player for r, c in indexes):
@@ -80,7 +77,7 @@ class Game:
         return max_value, max_x, max_y
 
     def min_value(self, alpha: float, beta: float) -> tuple:
-        """Player O, i.e. human."""
+        """Player O, i.e. our code."""
         min_value = float("inf")
         # initialize minimizer's coordinates
         min_x, min_y = None, None
@@ -122,12 +119,12 @@ def play_game(opponent_team_id: int, n: int, m: int):
         while not game.is_game_finished("X") or game.is_game_finished("O"):
             game.copy_board_state = deepcopy(game.curr_board_state)
             game.draw_board()
-            max_value, max_x, max_y = game.max_value(alpha=-float("inf"), beta=float("inf"))
-            if game.curr_board_state[max_x][max_y] != '0.0':
-                print("Incorrect move made!")
+            min_value, min_x, min_y = game.min_value(alpha=-float("inf"), beta=float("inf"))
+            if game.curr_board_state[min_x][min_y] != '0.0':
+                print("Incorrect move made by your code!")
                 break
-            print("AI makes this move: {}, {}".format(max_x, max_y))
-            req.make_a_move(game_id, (max_x, max_y))
+            print("O makes this move: {}, {}".format(min_x, min_y))
+            req.make_a_move(game_id, (min_x, min_y))
             game.nmoves += 1
             moves = req.get_move_list(game_id)["moves"]
             # wait for the opponent to make a move
@@ -142,7 +139,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
                 x = int(move["move"].split(",")[0])
                 y = int(move["move"].split(",")[1])
                 if game.curr_board_state[x][y] != '0.0':
-                    print("Incorrect move made!")
+                    print("Incorrect move made by {}!".format(symbol))
                     break
                 game.curr_board_state[x][y] = symbol
 
