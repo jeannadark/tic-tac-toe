@@ -38,12 +38,12 @@ class Game:
         yield [(i, n - 1 - i) for i in range(n)]
 
     def evaluate_game(self, player):
-        if player == "X":
-            return "X won"
+        if self.nmoves == self.n ** 2:
+            return "Tie"
         elif player == "O":
             return "O won"
-        elif game.nmoves == game.n ** 2:
-            return "Tie"
+        elif player == "X":
+            return "X won"
 
     def max_value(self, alpha: float, beta: float) -> tuple:
         """Player X, i.e. AI."""
@@ -110,7 +110,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         #game_id = req.create_game(opponent_team_id)
         #print(game_id)
         game = Game(n=n, m=m)
-        while game.is_game_finished("X") == False or game.is_game_finished("O") == False:
+        while not game.is_game_finished("X") and not game.is_game_finished("O"):
             game.board_copy = deepcopy(game.curr_board_state)
             max_value, max_x, max_y = game.max_value(alpha=-float("inf"), beta=float("inf"))
             print("AI makes this move: {}, {}".format(max_x, max_y))
