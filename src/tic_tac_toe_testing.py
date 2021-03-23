@@ -149,6 +149,8 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[min_x][min_y] = "O"
         game.nmoves += 1
         game.draw_board()
+        if game.is_end_of_game(max_depth, game.curr_board_state):
+            break
         x, y = input("Enter x and y for oppo: ").split()
         x = int(x)
         y = int(y)
