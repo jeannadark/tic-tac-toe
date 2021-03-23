@@ -19,12 +19,30 @@ class Game:
                 r = r + f" {self.curr_board_state[row][column]} |"
             print(r)
 
-    def is_game_finished(self, player):
+    def is_tie(self):
+        is_tie = False
         if self.nmoves+1== self.n * self.n:
-            return True
+            is_tie = True
+        if is_tie:
+            return (0, 0, 0)
+
+    def is_won(self, player):
+        is_won = False
         for indexes in self.checkIndexes(self.target):
             if all(self.curr_board_state[r][c] == player for r, c in indexes):
-                return True
+                is_won = True
+        if is_won and player == 'X':
+            return (1, 0, 0)
+        if is_won and player == 'O':
+            return (0, 0, -1)
+
+    def is_end_of_game(self):
+        if self.is_tie() is not None:
+            return True
+        elif self.is_won("X") is not None:
+            return True
+        elif self.is_won("O") is not None:
+            return True
         return False
 
     def checkIndexes(self, n):
@@ -37,19 +55,19 @@ class Game:
         yield [(i, i) for i in range(n)]
         yield [(i, n - 1 - i) for i in range(n)]
 
-    def evaluate_game(self, player):
-        if self.nmoves+1 == self.n * self.n:
-            print("Tie")
-        elif player == "X":
-            print("X won")
-        elif player == "O":
-            print("O won")
-
     def max_value(self, alpha: float, beta: float) -> tuple:
         """Player X, i.e. AI."""
-        max_value = -float("inf")
+        max_value = -2
         # initialize maximizer's coordinates
         max_x, max_y = None, None
+
+        result = self.is_tie()
+        if result is not None:
+            return result
+        elif self.is_won("X") is not None:
+            return self.is_won("X")
+        elif self.is_won("O") is not None:
+            return self.is_won("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -77,9 +95,17 @@ class Game:
 
     def min_value(self, alpha: float, beta: float) -> tuple:
         """Player O, i.e. our code."""
-        min_value = float("inf")
+        min_value = 2
         # initialize minimizer's coordinates
         min_x, min_y = None, None
+
+        result = self.is_tie()
+        if result is not None:
+            return result
+        elif self.is_won("X") is not None:
+            return self.is_won("X")
+        elif self.is_won("O") is not None:
+            return self.is_won("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -109,10 +135,9 @@ class Game:
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
     game = Game(n=n, m=m)
-    max_depth = 5
-    while not game.is_game_finished("X") and not game.is_game_finished("O") and max_depth != 0:
+    while not game.is_end_of_game():
         game.copy_board_state = deepcopy(game.curr_board_state)
-        min_value, min_x, min_y = game.min_value(alpha=-float("inf"), beta=float("inf"))
+        min_value, min_x, min_y = game.min_value(alpha=-2, beta=2)
         if game.curr_board_state[min_x][min_y] != '0.0':
             print("Incorrect move made by your code!")
             break
@@ -128,15 +153,16 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[x][y] = "X"
         game.nmoves += 1
         game.draw_board()
-        max_depth = max_depth - 1
 
-    if game.is_game_finished("X"):
+    if game.is_end_of_game():
         print("Game over!")
-        print(game.evaluate_game("X"))
-        game.draw_board()
-    elif game.is_game_finished("O"):
-        print("Game over!")
-        print(game.evaluate_game("O"))
+        result = game.is_tie()
+        if result is not None:
+            print("Tie!")
+        elif game.is_won("X") is not None:
+            print("X won!")
+        elif game.is_won("O") is not None:
+            print("O won!")
         game.draw_board()
 
 
