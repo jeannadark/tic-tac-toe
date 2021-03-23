@@ -70,8 +70,8 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.copy_board_state[i][j] == '0.0':
-                    self.copy_board_state[i][j] = "X"
+                if self.curr_board_state[i][j] == '0.0':
+                    self.curr_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta)
 
                     # maximize further
@@ -80,7 +80,7 @@ class Game:
                         max_x = i
                         max_y = j
                     # undo move
-                    self.copy_board_state[i][j] = '0.0'
+                    self.curr_board_state[i][j] = '0.0'
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -108,17 +108,16 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.copy_board_state[i][j] == '0.0':
-                    self.copy_board_state[i][j] = "O"
+                if self.curr_board_state[i][j] == '0.0':
+                    self.curr_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
-                    print(min_value, v, alpha, beta)
                     # minimize further
                     if v < min_value:
                         min_value = v
                         min_x = i
                         min_y = j
                     # undo move
-                    self.copy_board_state[i][j] = '0.0'   
+                    self.curr_board_state[i][j] = '0.0'   
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
