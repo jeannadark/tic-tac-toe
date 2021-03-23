@@ -35,9 +35,9 @@ class Game:
             if all(board[r][c] == player for r, c in indexes):
                 is_won = True
         if is_won and player == 'X':
-            return (1, 0, 0)
+            return (-1, 0, 0)
         if is_won and player == 'O':
-            return (0, 0, -1)
+            return (1, 0, 0)
 
     def is_end_of_game(self, depth: int, board):
         if self.is_tie(board):
