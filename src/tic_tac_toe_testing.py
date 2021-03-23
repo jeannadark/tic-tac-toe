@@ -3,7 +3,7 @@ import requester as req
 from copy import deepcopy
 import time
 
-
+# the remaining issue is in the two copies of the board
 class Game:
     def __init__(self, n, m):
         self.n = n
@@ -28,7 +28,7 @@ class Game:
 
     def is_won(self, player):
         is_won = False
-        for indexes in self.checkIndexes(self.target):
+        for indexes in self.check_indexes(self.target):
             if all(self.curr_board_state[r][c] == player for r, c in indexes):
                 is_won = True
         if is_won and player == 'X':
@@ -45,13 +45,11 @@ class Game:
             return True
         return False
 
-    def checkIndexes(self, n):
+    def check_indexes(self, n):
         for r in range(n):
             yield [(r, c) for c in range(n)]
-
         for c in range(n):
             yield [(r, c) for r in range(n)]
-
         yield [(i, i) for i in range(n)]
         yield [(i, n - 1 - i) for i in range(n)]
 
@@ -113,7 +111,7 @@ class Game:
                 if self.copy_board_state[i][j] == '0.0':
                     self.copy_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
-
+                    print(min_value, v, alpha, beta)
                     # minimize further
                     if v < min_value:
                         min_value = v
@@ -150,6 +148,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         if game.curr_board_state[x][y] != '0.0':
             print("Incorrect move made by opponent!")
             break
+        print("X makes this move: {}, {}".format(x, y))
         game.curr_board_state[x][y] = "X"
         game.nmoves += 1
         game.draw_board()
