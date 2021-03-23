@@ -58,9 +58,6 @@ class Game:
                     self.copy_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta)
 
-                    if v==None and min_x==None:
-                        break
-
                     # maximize further
                     if v > max_value:
                         max_value = v
@@ -90,9 +87,6 @@ class Game:
                 if self.copy_board_state[i][j] == '0.0':
                     self.copy_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
-
-                    if v==None and max_x==None:
-                        break
 
                     # minimize further
                     if v < min_value:
@@ -126,24 +120,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
                 break
             print("O makes this move: {}, {}".format(min_x, min_y))
             game.curr_board_state[min_x][min_y] = "O"
-            # req.make_a_move(game_id, (min_x, min_y))
             game.nmoves += 1
-            # moves = req.get_move_list(game_id)["moves"]
-            # wait for the opponent to make a move
-            # while req.get_move_list(game_id)['moves'] == moves:
-                # print(req.get_move_list(game_id))
-                # time.sleep(2)
-            # updated_moves = req.get_move_list(game_id)
-            game.nmoves += 1
-            # now update the game's current board state with the moves made by AI and opponent
-            # for move in updated_moves['moves']:
-                # symbol = move["symbol"]
-                # x = int(move["move"].split(",")[0])
-                # y = int(move["move"].split(",")[1])
-                # if game.curr_board_state[x][y] != '0.0':
-                #    print("Incorrect move made by {}!".format(symbol))
-                #    break
-                # game.curr_board_state[x][y] = symbol
             x, y = input("Enter x and y for oppo: ").split()
             x = int(x)
             y = int(y)
@@ -151,6 +128,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
                 print("Incorrect move made by opponent!")
                 break
             game.curr_board_state[x][y] = "X"
+            game.nmoves += 1
             game.draw_board()
 
         if game.is_game_finished("X"):
