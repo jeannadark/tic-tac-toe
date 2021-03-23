@@ -20,6 +20,8 @@ class Game:
             print(r)
 
     def is_game_finished(self, player):
+        if self.nmoves+1== self.n * self.n:
+            return True
         for indexes in self.checkIndexes(self.target):
             if all(self.curr_board_state[r][c] == player for r, c in indexes):
                 return True
@@ -36,12 +38,12 @@ class Game:
         yield [(i, n - 1 - i) for i in range(n)]
 
     def evaluate_game(self, player):
-        if player == "X":
-            return "X won"
+        if self.nmoves+1 == self.n * self.n:
+            print("Tie")
+        elif player == "X":
+            print("X won")
         elif player == "O":
-            return "O won"
-        elif game.nmoves == game.n ** 2:
-            return "Tie"
+            print("O won")
 
     def max_value(self, alpha: float, beta: float) -> tuple:
         """Player X, i.e. AI."""
