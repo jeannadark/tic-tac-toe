@@ -19,29 +19,32 @@ class Game:
                 r = r + f" {self.curr_board_state[row][column]} |"
             print(r)
 
-    def is_tie(self):
-        is_tie = False
-        if self.nmoves+1== self.n * self.n:
-            is_tie = True
-        if is_tie:
-            return (0, 0, 0)
+    def is_tie(self, board):
+        num=0
+        for i in range(0, self.n):
+            for j in range(0, self.n):
+                if board[i][j] != '0.0':
+                    num+=1
+        if num == self.n * self.n:
+            return True
+        return False
 
-    def is_won(self, player):
+    def is_won(self, player, board):
         is_won = False
         for indexes in self.check_indexes(self.target):
-            if all(self.curr_board_state[r][c] == player for r, c in indexes):
+            if all(board[r][c] == player for r, c in indexes):
                 is_won = True
         if is_won and player == 'X':
             return (1, 0, 0)
         if is_won and player == 'O':
             return (0, 0, -1)
 
-    def is_end_of_game(self, depth: int):
-        if self.is_tie() is not None:
+    def is_end_of_game(self, depth: int, board):
+        if self.is_tie(board):
             return True
-        elif self.is_won("X") is not None:
+        elif self.is_won("X", board) is not None:
             return True
-        elif self.is_won("O") is not None:
+        elif self.is_won("O", board) is not None:
             return True
         elif depth == 0:
             return True
@@ -61,28 +64,28 @@ class Game:
         # initialize maximizer's coordinates
         max_x, max_y = None, None
 
-        if self.is_end_of_game(depth):
-            if self.is_tie() is not None:
-                return self.is_tie()
-            elif self.is_won("X") is not None:
-                return self.is_won("X")
-            elif self.is_won("O") is not None:
-                return self.is_won("O")
+        if self.is_end_of_game(depth, self.copy_board_state):
+            if self.is_tie(self.copy_board_state):
+                return (0,0,0)
+            elif self.is_won("X", self.copy_board_state) is not None:
+                return self.is_won("X", self.copy_board_state)
+            elif self.is_won("O", self.copy_board_state) is not None:
+                return self.is_won("O", self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.curr_board_state[i][j] == '0.0':
-                    self.curr_board_state[i][j] = "X"
+                if self.copy_board_state[i][j] == '0.0':
+                    self.copy_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
-
+                    print(max_value, v)
                     # maximize further
                     if v > max_value:
                         max_value = v
                         max_x = i
                         max_y = j
                     # undo move
-                    self.curr_board_state[i][j] = '0.0'
+                    self.copy_board_state[i][j] = '0.0'
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -99,19 +102,19 @@ class Game:
         # initialize minimizer's coordinates
         min_x, min_y = None, None
 
-        if self.is_end_of_game(depth):
-            if self.is_tie() is not None:
-                return self.is_tie()
-            elif self.is_won("X") is not None:
-                return self.is_won("X")
-            elif self.is_won("O") is not None:
-                return self.is_won("O")
+        if self.is_end_of_game(depth, self.copy_board_state):
+            if self.is_tie(self.copy_board_state):
+                return (0,0,0)
+            elif self.is_won("X", self.copy_board_state) is not None:
+                return self.is_won("X", self.copy_board_state)
+            elif self.is_won("O", self.copy_board_state) is not None:
+                return self.is_won("O", self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.curr_board_state[i][j] == '0.0':
-                    self.curr_board_state[i][j] = "O"
+                if self.copy_board_state[i][j] == '0.0':
+                    self.copy_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
 
                     # minimize further
@@ -120,7 +123,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.curr_board_state[i][j] = '0.0'   
+                    self.copy_board_state[i][j] = '0.0'   
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -136,7 +139,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
     max_depth = 5
     game = Game(n=n, m=m)
-    while not game.is_end_of_game(max_depth):
+    while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
         min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth = max_depth)
         if game.curr_board_state[min_x][min_y] != '0.0':
@@ -158,15 +161,15 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.draw_board()
         max_depth = max_depth - 1
 
-    if game.is_end_of_game(max_depth):
+    if game.is_end_of_game(max_depth, game.curr_board_state):
         print("Game over!")
-        result = game.is_tie()
-        if result is not None:
-            print("Tie!")
-        elif game.is_won("X") is not None:
+        if game.is_won("X", game.curr_board_state) is not None:
             print("X won!")
-        elif game.is_won("O") is not None:
+        elif game.is_won("O", game.curr_board_state) is not None:
             print("O won!")
+        elif game.is_tie():
+            return("Tie", game.curr_board_state)
+
         game.draw_board()
 
 
