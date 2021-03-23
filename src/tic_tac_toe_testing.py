@@ -108,39 +108,34 @@ class Game:
 
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
-    while True:
-        # game_id = req.create_game(opponent_team_id)
-        # print(game_id)
-        game = Game(n=n, m=m)
-        while not game.is_game_finished("X") or game.is_game_finished("O"):
-            game.copy_board_state = deepcopy(game.curr_board_state)
-            min_value, min_x, min_y = game.min_value(alpha=-float("inf"), beta=float("inf"))
-            if game.curr_board_state[min_x][min_y] != '0.0':
-                print("Incorrect move made by your code!")
-                break
-            print("O makes this move: {}, {}".format(min_x, min_y))
-            game.curr_board_state[min_x][min_y] = "O"
-            game.nmoves += 1
-            x, y = input("Enter x and y for oppo: ").split()
-            x = int(x)
-            y = int(y)
-            if game.curr_board_state[x][y] != '0.0':
-                print("Incorrect move made by opponent!")
-                break
-            game.curr_board_state[x][y] = "X"
-            game.nmoves += 1
-            game.draw_board()
+    game = Game(n=n, m=m)
+    while not game.is_game_finished("X") or game.is_game_finished("O"):
+        game.copy_board_state = deepcopy(game.curr_board_state)
+        min_value, min_x, min_y = game.min_value(alpha=-float("inf"), beta=float("inf"))
+        if game.curr_board_state[min_x][min_y] != '0.0':
+            print("Incorrect move made by your code!")
+            break
+        print("O makes this move: {}, {}".format(min_x, min_y))
+        game.curr_board_state[min_x][min_y] = "O"
+        game.nmoves += 1
+        x, y = input("Enter x and y for oppo: ").split()
+        x = int(x)
+        y = int(y)
+        if game.curr_board_state[x][y] != '0.0':
+            print("Incorrect move made by opponent!")
+            break
+        game.curr_board_state[x][y] = "X"
+        game.nmoves += 1
+        game.draw_board()
 
-        if game.is_game_finished("X"):
-            print("Game over!")
-            print(game.evaluate_game("X"))
-            game.draw_board()
-            break
-        elif game.is_game_finished("O"):
-            print("Game over!")
-            print(game.evaluate_game("O"))
-            game.draw_board()
-            break
+    if game.is_game_finished("X"):
+        print("Game over!")
+        print(game.evaluate_game("X"))
+        game.draw_board()
+    elif game.is_game_finished("O"):
+        print("Game over!")
+        print(game.evaluate_game("O"))
+        game.draw_board()
 
 
 if __name__ == "__main__":
