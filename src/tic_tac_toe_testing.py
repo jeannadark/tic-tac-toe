@@ -50,9 +50,6 @@ class Game:
         max_value = -float("inf")
         # initialize maximizer's coordinates
         max_x, max_y = None, None
-        # if game is finished, evaluate scores
-        if self.is_game_finished("X"):
-            return None, None, self.evaluate_game("X")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -60,9 +57,6 @@ class Game:
                 if self.board_copy[i][j] == '0.0':
                     self.board_copy[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta)
-
-                    if v==None and min_x==None:
-                        break
 
                     # maximize further
                     if v > max_value:
@@ -85,9 +79,6 @@ class Game:
         min_value = float("inf")
         # initialize minimizer's coordinates
         min_x, min_y = None, None
-        # if game is finished, evaluate scores
-        if self.is_game_finished("O"):
-            return None, None, self.evaluate_game("O")
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -95,9 +86,6 @@ class Game:
                 if self.board_copy[i][j] == '0.0':
                     self.board_copy[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta)
-
-                    if v==None and max_x==None:
-                        break
 
                     # minimize further
                     if v < min_value:
@@ -122,7 +110,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         #game_id = req.create_game(opponent_team_id)
         #print(game_id)
         game = Game(n=n, m=m)
-        while not game.is_game_finished("X") or game.is_game_finished("O"):
+        while game.is_game_finished("X") == False or game.is_game_finished("O") == False:
             game.board_copy = deepcopy(game.curr_board_state)
             max_value, max_x, max_y = game.max_value(alpha=-float("inf"), beta=float("inf"))
             print("AI makes this move: {}, {}".format(max_x, max_y))
