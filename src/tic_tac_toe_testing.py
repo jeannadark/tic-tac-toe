@@ -109,7 +109,8 @@ class Game:
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
     game = Game(n=n, m=m)
-    while not game.is_game_finished("X") or game.is_game_finished("O"):
+    max_depth = 5
+    while not game.is_game_finished("X") and not game.is_game_finished("O") and max_depth != 0:
         game.copy_board_state = deepcopy(game.curr_board_state)
         min_value, min_x, min_y = game.min_value(alpha=-float("inf"), beta=float("inf"))
         if game.curr_board_state[min_x][min_y] != '0.0':
@@ -127,6 +128,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[x][y] = "X"
         game.nmoves += 1
         game.draw_board()
+        max_depth = max_depth - 1
 
     if game.is_game_finished("X"):
         print("Game over!")
