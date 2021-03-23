@@ -35,9 +35,9 @@ class Game:
             if all(board[r][c] == player for r, c in indexes):
                 is_won = True
         if is_won and player == 'X':
-            return (-1, 0, 0)
-        if is_won and player == 'O':
             return (1, 0, 0)
+        if is_won and player == 'O':
+            return (-1, 0, 0)
 
     def is_end_of_game(self, depth: int, board):
         if self.is_tie(board):
@@ -78,7 +78,7 @@ class Game:
                 if self.copy_board_state[i][j] == '0.0':
                     self.copy_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
-                    print(max_value, v)
+
                     # maximize further
                     if v > max_value:
                         max_value = v
@@ -137,7 +137,7 @@ class Game:
 
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
-    max_depth = 5
+    max_depth = 10
     game = Game(n=n, m=m)
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
