@@ -75,7 +75,7 @@ class Game:
                 if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
-                    print(max_value)
+
                     # maximize further
                     if v > max_value:
                         max_value = v
@@ -113,7 +113,7 @@ class Game:
                 if self.curr_board_state[i][j] == '0.0':
                     self.curr_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
-                    print(min_value)
+
                     # minimize further
                     if v < min_value:
                         min_value = v
@@ -145,6 +145,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         print("O makes this move: {}, {}".format(min_x, min_y))
         game.curr_board_state[min_x][min_y] = "O"
         game.nmoves += 1
+        game.draw_board()
         x, y = input("Enter x and y for oppo: ").split()
         x = int(x)
         y = int(y)
