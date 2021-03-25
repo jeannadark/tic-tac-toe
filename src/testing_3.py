@@ -208,7 +208,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[x][y] = "O"
         game.nmoves += 1
         game.draw_board()
-        max_depth = max_depth - 1
+        # max_depth = max_depth - 1
 
     if game.is_end_of_game(max_depth):
         print("Game over!")
