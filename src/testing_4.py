@@ -67,16 +67,27 @@ class Game:
                     and (Counter(self.copy_board_state[:, j])['O'] + Counter(self.copy_board_state[:, j])['.']) == self.target
                 ):
                     cons_y_col += 1
+        
+        cnt = 0
+        cnt_x = 0
+        cnt_y = 0
+        for i in range(0, self.n-1):
+            if self.copy_board_state[i][i+cnt] == 'X' or self.copy_board_state[i][i+cnt] == '.':
+                cnt_x += 1
+            elif self.copy_board_state[i][i+cnt] == 'O' or self.copy_board_state[i][i+cnt] == '.':
+                cnt_y += 1
 
         for i in range(0, self.n - 1):
             if (
                 self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
                 and self.copy_board_state[i][i] == "X"
+                and cnt_x == self.target
             ):
                 cons_x_diag += 1
             elif (
                 self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
                 and self.copy_board_state[i][i] == "O"
+                and cnt_y == self.target
             ):
                 cons_y_diag += 1
 
@@ -223,7 +234,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[x][y] = "X"
         game.nmoves += 1
         game.draw_board()
-        #max_depth = max_depth - 1
+        # max_depth = max_depth - 1
 
     if game.is_end_of_game(max_depth, game.curr_board_state):
         print("Game over!")
