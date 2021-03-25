@@ -1,4 +1,6 @@
 import requests
+import http.client
+import ast
 
 USERID = "1041"
 API_KEY = "bbb3281e09670945b281"
@@ -20,10 +22,13 @@ def create_game(opponent_team: int):
         "userId": USERID,
         "Content-Type": "application/x-www-form-urlencoded",
     }
+    conn = http.client.HTTPSConnection('www.notexponential.com')
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    conn.request("POST", '/aip2pgaming/api/index.php', payload, headers)
+    response = conn.getresponse()
+    data = response.read()
 
-    return response.text["gameId"]
+    return ast.literal_eval(data.decode('utf-8'))["gameId"]
 
 
 def make_a_move(game_id: int, move: tuple):
@@ -44,15 +49,17 @@ def make_a_move(game_id: int, move: tuple):
         "userId": USERID,
         "Content-Type": "application/x-www-form-urlencoded",
     }
+    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn.request("POST", '/aip2pgaming/api/index.php', payload, headers)
+    response = conn.getresponse()
+    data = response.read()
+    # print(ast.literal_eval(data.decode('utf-8')))
 
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
 
-
-def get_move_list(game_id: int, count: int = 1):
-    """Get list of recent moves made for the game instance. Defaults to 1 recent move."""
+def get_move_list(game_id: int, count: int = 2):
+    """Get list of recent moves made for the game instance. Defaults to 2 recent moves."""
     get_moves_url = (
-        "https://www.notexponential.com/aip2pgaming/api/index.php?type=moves&gameId="
+        "/aip2pgaming/api/index.php?type=moves&gameId="
         + str(game_id)
         + "&count="
         + str(count)
@@ -63,18 +70,28 @@ def get_move_list(game_id: int, count: int = 1):
         "userId": USERID,
     }
 
-    response = requests.request("GET", get_moves_url, headers=headers, data=payload)
-    return response.text
+    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn.request("GET", get_moves_url, payload, headers)
+    response = conn.getresponse()
+    data = response.read()
+    # print(data)
+    # print(ast.literal_eval(data.decode('utf-8')))
+
+    return ast.literal_eval(data.decode('utf-8'))
 
 
 def get_board_map(game_id: int):
     """Print board map."""
     board_map_url = (
-        "https://www.notexponential.com/aip2pgaming/api/index.php?type=boardMap&gameId="
+        "/aip2pgaming/api/index.php?type=boardMap&gameId="
         + str(game_id)
     )
     payload = {}
     headers = {"x-api-key": API_KEY, "userId": USERID}
 
-    response = requests.request("GET", board_map_url, headers=headers, data=payload)
-    print(response.text)
+    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn.request("GET", board_map_url, payload, headers)
+    response = conn.getresponse()
+    data = response.read()
+
+    # print(data)
