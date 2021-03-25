@@ -28,6 +28,50 @@ class Game:
         if num == self.n * self.n:
             return True
         return False
+
+
+    def heuristics(self):
+    	cons_x = 0
+    	cons_y = 0
+    	prev_val = 0
+    	x_row_maxes = []
+    	o_row_maxes = []
+    	# for i in range(0, n):
+    	# 	for j in range(0, n):
+    	# 		if prev_val==0  or prev_val == 'X' and self.curr_board_state[i][j]=='X':
+    	# 			cons_x+=1
+    	# 		else:
+    	# 			cons_x = 0
+    	# 		elif prev_val==0 or or prev_val == 'O' and self.curr_board_state[i][j]=='O':
+    	# 			cons_y+=1
+    	# 		prev_val = self.curr_board_state[i][j]
+    	# 	x_row_maxes.append(cons_x)
+    	# 	o_row_maxes.append(cons_y)
+    	# max_x = max(x_row_maxes)
+    	# max_o = max(o_row_maxes)
+    	for i in range(0, self.n):
+    		for j in range(0, self.n-1):
+    			if self.curr_board_state[i][j]==self.curr_board_state[i][j+1] and self.curr_board_state[i][j]=='X':
+    				cons_x += 1
+    			elif self.curr_board_state[i][j]==self.curr_board_state[i][j+1] and self.curr_board_state[i][j]=='O':
+    				cons_y += 1
+    	for i in range(0, self.n-1):
+    		for j in range(0, self.n):
+    			if self.curr_board_state[i][j]==self.curr_board_state[i+1][j] and self.curr_board_state[i][j]=='X':
+    				cons_x += 1
+    			elif self.curr_board_state[i][j]==self.curr_board_state[i+1][j] and self.curr_board_state[i][j]=='O':
+    				cons_y += 1
+    	for i in range(0, self.n-1):
+    		if self.curr_board_state[i][i]==self.curr_board_state[i+1][i+1] and self.curr_board_state[i][i]=='X':
+    			cons_x += 1
+    		elif self.curr_board_state[i][i]==self.curr_board_state[i+1][i+1] and self.curr_board_state[i][i]=='O':
+    			cons_y += 1
+    	if cons_x>cons_y:
+    		return (1, 0, 0)
+    	elif cons_x<cons_y:
+    		return (0, 0, -1)
+    	else:
+    		return (0, 0, 0)
                 
 
     def is_won(self, player):
@@ -72,6 +116,8 @@ class Game:
                 return self.is_won("X")
             elif self.is_won("O") is not None:
                 return self.is_won("O")
+            else:
+            	return self.heuristics()
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -110,6 +156,8 @@ class Game:
                 return self.is_won("X")
             elif self.is_won("O") is not None:
                 return self.is_won("O")
+            else:
+            	return self.heuristics()
 
         for i in range(0, self.n):
             for j in range(0, self.n):
