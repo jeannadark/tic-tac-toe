@@ -186,7 +186,7 @@ class Game:
 
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
-    max_depth = 5
+    max_depth = 3
     game = Game(n=n, m=m)
     while not game.is_end_of_game(max_depth):
         game.copy_board_state = deepcopy(game.curr_board_state)
