@@ -30,62 +30,50 @@ class Game:
         return False
 
     def heuristics(self):
-        cons_x = 0
-        cons_y = 0
-        prev_val = 0
-        x_row_maxes = []
-        o_row_maxes = []
-        # for i in range(0, n):
-        # 	for j in range(0, n):
-        # 		if prev_val==0  or prev_val == 'X' and self.curr_board_state[i][j]=='X':
-        # 			cons_x+=1
-        # 		else:
-        # 			cons_x = 0
-        # 		elif prev_val==0 or or prev_val == 'O' and self.curr_board_state[i][j]=='O':
-        # 			cons_y+=1
-        # 		prev_val = self.curr_board_state[i][j]
-        # 	x_row_maxes.append(cons_x)
-        # 	o_row_maxes.append(cons_y)
-        # max_x = max(x_row_maxes)
-        # max_o = max(o_row_maxes)
+        cons_x_row = 0
+        cons_x_col = 0
+        cons_x_diag = 0
+        cons_y_row = 0
+        cons_x_col = 0
+        cons_y_diag = 0
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "X"
                 ):
-                    cons_x += 1
+                    cons_x_row += 1
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "O"
                 ):
-                    cons_y += 1
+                    cons_y_row += 1
         for i in range(0, self.n - 1):
             for j in range(0, self.n):
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "X"
                 ):
-                    cons_x += 1
+                    cons_x_col += 1
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "O"
                 ):
-                    cons_y += 1
+                    cons_y_col += 1
         for i in range(0, self.n - 1):
             if (
                 self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
                 and self.copy_board_state[i][i] == "X"
             ):
-                cons_x += 1
+                cons_x_diag += 1
             elif (
                 self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
                 and self.copy_board_state[i][i] == "O"
             ):
-                cons_y += 1
-        if cons_x > cons_y:
+                cons_y_diag += 1
+        if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
             return (1, 0, 0)
-        elif cons_x < cons_y:
+        elif max(cons_x_row, cons_x_col, cons_x_diag)< max(cons_y_row, cons_y_col, cons_y_diag):
             return (-1, 0, 0)
         else:
             return (0, 0, 0)
@@ -202,7 +190,7 @@ class Game:
 
 def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
-    max_depth = 3
+    max_depth = 4
     game = Game(n=n, m=m)
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
