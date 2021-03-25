@@ -257,5 +257,5 @@ if __name__ == "__main__":
         game_id = req.create_game(opponent_team_id)
         print('Game ID is ' + str(game_id) + '\n')
     n, m = input("Enter n and m for an n x n game with target m: ").split()
-    player = str(input("Play as X or O?"))
+    player = str(input("Play as X or O?\n"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)
