@@ -200,7 +200,7 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     game = Game(n=n, m=m, player=player)
 
     try:
-        initial_move = req.get_move_list(game_id)["moves"]
+        initial_move = req.get_move_list(game_id)["moves"][0]
         x = int(initial_move["move"].split(",")[0])
         y = int(initial_move["move"].split(",")[1])
         game.curr_board_state[x][y] = initial_move["symbol"]
@@ -221,9 +221,9 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
         game.draw_board()
         # wait for the opponent to make a move
         while req.get_move_list(game_id)["moves"] == moves:
-            time.sleep(2)
+            time.sleep(1)
         updated_moves = req.get_move_list(game_id)
-        for move in updated_moves["moves"]:
+        for move in updated_moves["moves"][0]:
             symbol = move["symbol"]
             x = int(move["move"].split(",")[0])
             y = int(move["move"].split(",")[1])
@@ -255,7 +255,7 @@ if __name__ == "__main__":
     opponent_team_id = int(input("Please enter opponent team id: \n"))
     if game_id == 0:
         game_id = req.create_game(opponent_team_id)
-        print(game_id)
+        print('Game ID is ' + str(game_id) + '\n')
     n, m = input("Enter n and m for an n x n game with target m: ").split()
     player = str(input("Play as X or O?"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)
