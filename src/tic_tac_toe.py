@@ -252,11 +252,10 @@ if __name__ == "__main__":
     game_id = int(
         input("Enter Game ID if joining another game. To create your own, enter 0: ")
     )
+    opponent_team_id = int(input("Please enter opponent team id: \n"))
     if game_id == 0:
         game_id = req.create_game(opponent_team_id)
         print(game_id)
-
-    opponent_team_id = int(input("Please enter opponent team id: \n"))
     n, m = input("Enter n and m for an n x n game with target m: ").split()
     player = str(input("Play as X or O?"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)
