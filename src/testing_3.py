@@ -34,7 +34,7 @@ class Game:
         cons_x_col = 0
         cons_x_diag = 0
         cons_y_row = 0
-        cons_x_col = 0
+        cons_y_col = 0
         cons_y_diag = 0
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
