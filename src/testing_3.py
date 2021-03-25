@@ -8,8 +8,8 @@ class Game:
     def __init__(self, n, m):
         self.n = n
         self.target = m
-        self.curr_board_state = np.zeros((n, n)).astype(str)
-        self.copy_board_state = np.zeros((n, n)).astype(str)
+        self.curr_board_state = np.full([n, n], ".")
+        self.copy_board_state = np.full([n, n], ".")
         self.nmoves = 0
 
     def draw_board(self):
@@ -23,7 +23,7 @@ class Game:
         num = 0
         for i in range(0, self.n):
             for j in range(0, self.n):
-                if board[i][j] != "0.0":
+                if board[i][j] != ".":
                     num += 1
         if num == self.n * self.n:
             return True
@@ -126,7 +126,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.curr_board_state[i][j] == "0.0":
+                if self.curr_board_state[i][j] == ".":
                     self.curr_board_state[i][j] = "X"
                     v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
 
@@ -136,7 +136,7 @@ class Game:
                         max_x = i
                         max_y = j
                     # undo move
-                    self.curr_board_state[i][j] = "0.0"
+                    self.curr_board_state[i][j] = "."
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -166,7 +166,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.copy_board_state[i][j] == "0.0":
+                if self.copy_board_state[i][j] == ".":
                     self.copy_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
 
@@ -176,7 +176,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.copy_board_state[i][j] = "0.0"
+                    self.copy_board_state[i][j] = "."
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -195,7 +195,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
         min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
-        if game.curr_board_state[min_x][min_y] != "0.0":
+        if game.curr_board_state[min_x][min_y] != ".":
             print("Incorrect move made by your code!")
             break
         print("O makes this move: {}, {}".format(min_x, min_y))
@@ -207,7 +207,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
         x, y = input("Enter x and y for oppo: ").split()
         x = int(x)
         y = int(y)
-        if game.curr_board_state[x][y] != "0.0":
+        if game.curr_board_state[x][y] != ".":
             print("Incorrect move made by opponent!")
             break
         print("X makes this move: {}, {}".format(x, y))
