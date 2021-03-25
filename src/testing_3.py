@@ -19,11 +19,11 @@ class Game:
                 r = r + f" {self.curr_board_state[row][column]} |"
             print(r)
 
-    def is_tie(self):
+    def is_tie(self, board):
         num = 0
         for i in range(0, self.n):
             for j in range(0, self.n):
-                if self.curr_board_state[i][j] != "0.0":
+                if board[i][j] != "0.0":
                     num += 1
         if num == self.n * self.n:
             return True
@@ -51,36 +51,36 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
                 if (
-                    self.curr_board_state[i][j] == self.curr_board_state[i][j + 1]
-                    and self.curr_board_state[i][j] == "X"
+                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
+                    and self.copy_board_state[i][j] == "X"
                 ):
                     cons_x += 1
                 elif (
-                    self.curr_board_state[i][j] == self.curr_board_state[i][j + 1]
-                    and self.curr_board_state[i][j] == "O"
+                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
+                    and self.copy_board_state[i][j] == "O"
                 ):
                     cons_y += 1
         for i in range(0, self.n - 1):
             for j in range(0, self.n):
                 if (
-                    self.curr_board_state[i][j] == self.curr_board_state[i + 1][j]
-                    and self.curr_board_state[i][j] == "X"
+                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
+                    and self.copy_board_state[i][j] == "X"
                 ):
                     cons_x += 1
                 elif (
-                    self.curr_board_state[i][j] == self.curr_board_state[i + 1][j]
-                    and self.curr_board_state[i][j] == "O"
+                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
+                    and self.copy_board_state[i][j] == "O"
                 ):
                     cons_y += 1
         for i in range(0, self.n - 1):
             if (
-                self.curr_board_state[i][i] == self.curr_board_state[i + 1][i + 1]
-                and self.curr_board_state[i][i] == "X"
+                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
+                and self.copy_board_state[i][i] == "X"
             ):
                 cons_x += 1
             elif (
-                self.curr_board_state[i][i] == self.curr_board_state[i + 1][i + 1]
-                and self.curr_board_state[i][i] == "O"
+                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
+                and self.copy_board_state[i][i] == "O"
             ):
                 cons_y += 1
         if cons_x > cons_y:
@@ -90,22 +90,22 @@ class Game:
         else:
             return (0, 0, 0)
 
-    def is_won(self, player):
+    def is_won(self, player, board):
         is_won = False
         for indexes in self.check_indexes(self.target):
-            if all(self.curr_board_state[r][c] == player for r, c in indexes):
+            if all(board[r][c] == player for r, c in indexes):
                 is_won = True
         if is_won and player == "X":
             return (1, 0, 0)
         if is_won and player == "O":
             return (-1, 0, 0)
 
-    def is_end_of_game(self, depth: int):
-        if self.is_tie():
+    def is_end_of_game(self, depth: int, board):
+        if self.is_tie(board):
             return True
-        elif self.is_won("X") is not None:
+        elif self.is_won("X", board) is not None:
             return True
-        elif self.is_won("O") is not None:
+        elif self.is_won("O", board) is not None:
             return True
         elif depth == 0:
             return True
@@ -125,13 +125,13 @@ class Game:
         # initialize maximizer's coordinates
         max_x, max_y = None, None
 
-        if self.is_end_of_game(depth):
-            if self.is_tie():
+        if self.is_end_of_game(depth, self.copy_board_state):
+            if self.is_tie(self.copy_board_state):
                 return (0, 0, 0)
-            elif self.is_won("X") is not None:
-                return self.is_won("X")
-            elif self.is_won("O") is not None:
-                return self.is_won("O")
+            elif self.is_won("X", self.copy_board_state) is not None:
+                return self.is_won("X", self.copy_board_state)
+            elif self.is_won("O", self.copy_board_state) is not None:
+                return self.is_won("O", self.copy_board_state)
             else:
                 return self.heuristics()
 
@@ -165,21 +165,21 @@ class Game:
         # initialize minimizer's coordinates
         min_x, min_y = None, None
 
-        if self.is_end_of_game(depth):
-            if self.is_tie():
+        if self.is_end_of_game(depth, self.copy_board_state):
+            if self.is_tie(self.copy_board_state):
                 return (0, 0, 0)
-            elif self.is_won("X") is not None:
-                return self.is_won("X")
-            elif self.is_won("O") is not None:
-                return self.is_won("O")
+            elif self.is_won("X", self.copy_board_state) is not None:
+                return self.is_won("X", self.copy_board_state)
+            elif self.is_won("O", self.copy_board_state) is not None:
+                return self.is_won("O", self.copy_board_state)
             else:
                 return self.heuristics()
 
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.curr_board_state[i][j] == "0.0":
-                    self.curr_board_state[i][j] = "O"
+                if self.copy_board_state[i][j] == "0.0":
+                    self.copy_board_state[i][j] = "O"
                     v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
 
                     # minimize further
@@ -188,7 +188,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.curr_board_state[i][j] = "0.0"
+                    self.copy_board_state[i][j] = "0.0"
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -204,7 +204,7 @@ def play_game(opponent_team_id: int, n: int, m: int):
     """Play the game."""
     max_depth = 3
     game = Game(n=n, m=m)
-    while not game.is_end_of_game(max_depth):
+    while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
         min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
         if game.curr_board_state[min_x][min_y] != "0.0":
@@ -214,6 +214,8 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.curr_board_state[min_x][min_y] = "O"
         game.nmoves += 1
         game.draw_board()
+        if game.is_end_of_game(max_depth, game.curr_board_state):
+            break
         x, y = input("Enter x and y for oppo: ").split()
         x = int(x)
         y = int(y)
@@ -226,14 +228,14 @@ def play_game(opponent_team_id: int, n: int, m: int):
         game.draw_board()
         # max_depth = max_depth - 1
 
-    if game.is_end_of_game(max_depth):
+    if game.is_end_of_game(max_depth, game.curr_board_state):
         print("Game over!")
-        if game.is_won("X") is not None:
+        if game.is_won("X", game.curr_board_state) is not None:
             print("X won!")
-        elif game.is_won("O") is not None:
+        elif game.is_won("O", game.curr_board_state) is not None:
             print("O won!")
-        elif game.is_tie():
-            return "Tie"
+        elif game.is_tie(game.curr_board_state):
+            print("Tie!")
 
         game.draw_board()
 
