@@ -312,19 +312,18 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
         if game.is_end_of_game(max_depth, game.curr_board_state):
             break
         while req.get_move_list(game_id)["moves"] == moves:
+            print(req.get_move_list(game_id)["moves"])
             time.sleep(1)
-        
-        updated_moves = req.get_move_list(game_id)
-        print(updated_moves["moves"][0])
-        for move in updated_moves["moves"][0]:
-            symbol = move["symbol"]
-            x = int(move["move"].split(",")[0])
-            y = int(move["move"].split(",")[1])
-            if game.curr_board_state[x][y] != ".":
-                print("Incorrect move made by opponent!")
-                break
-            print("{} makes this move: {}, {}".format(game.oppo_player, x, y))
-            game.curr_board_state[x][y] = symbol
+        print(req.get_move_list(game_id)["moves"][0])
+        move = req.get_move_list(game_id)["moves"][0]
+        symbol = move["symbol"]
+        x = int(move["move"].split(",")[0])
+        y = int(move["move"].split(",")[1])
+        if game.curr_board_state[x][y] != ".":
+            print("Incorrect move made by opponent!")
+            break
+        print("{} makes this move: {}, {}".format(game.oppo_player, x, y))
+        game.curr_board_state[x][y] = symbol
         game.nmoves += 1
         game.draw_board()
 
@@ -350,5 +349,5 @@ if __name__ == "__main__":
     if game_id == 0:
         game_id = req.create_game(opponent_team_id, int(n), int(m))
         print("Game ID is " + str(game_id) + "\n")
-    player = str(input("Play as X or O?\n"))
+    player = str(input("Play as X (if entering someone's game) or O (if game is your own)?\n"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)
