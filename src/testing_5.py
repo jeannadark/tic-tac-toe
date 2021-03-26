@@ -83,7 +83,7 @@ class Game:
                 cons_x_diag += 1
             if len(b_diag2) >= self.target and 'O' not in b_diag2 and 'X' in b_diag2:
                 cons_x_diag += 1
-            if len(diag) >= self.target and 'X' not in diag and 'O' in diag::
+            if len(diag) >= self.target and 'X' not in diag and 'O' in diag:
                 cons_y_diag += 1
             if len(flip_diag) >= self.target and 'X' not in flip_diag and 'O' in flip_diag::
                 cons_y_diag += 1
