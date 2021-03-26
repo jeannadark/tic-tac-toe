@@ -37,7 +37,7 @@ class Game:
             return True
         return False
 
-    def heuristics(self):
+    def heuristics(self, board):
         cons_x_row = 0
         cons_x_col = 0
         cons_x_diag = 0
@@ -46,63 +46,104 @@ class Game:
         cons_y_diag = 0
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
+                if cons_x_row == self.target:
+                    return (1, 0, 0)
+                elif cons_y_row == self.target:
+                    return (-1, 0, 0)
+                if board[i][j] == "X":
+                    cons_y_row = 0
+                elif board[i][j] == "O":
+                    cons_x_row = 0
                 if (
-                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
-                    and self.copy_board_state[i][j] == "X"
-                    and (
-                        Counter(self.copy_board_state[i])["X"]
-                        + Counter(self.copy_board_state[i])["."]
-                    )
-                    == self.target
+                    board[i][j] == board[i][j + 1]
+                    and board[i][j] == "X"
+                    and (Counter(board[i])["X"] + Counter(board[i])["."]) >= self.target
                 ):
                     cons_x_row += 1
 
                 elif (
-                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
-                    and self.copy_board_state[i][j] == "O"
-                    and (
-                        Counter(self.copy_board_state[i])["O"]
-                        + Counter(self.copy_board_state[i])["."]
-                    )
-                    == self.target
+                    board[i][j] == board[i][j + 1]
+                    and board[i][j] == "O"
+                    and (Counter(board[i])["O"] + Counter(board[i])["."]) >= self.target
                 ):
                     cons_y_row += 1
 
         for i in range(0, self.n - 1):
             for j in range(0, self.n):
+                if cons_x_col == self.target:
+                    return (1, 0, 0)
+                elif cons_y_col == self.target:
+                    return (-1, 0, 0)
+                if board[i][j] == "X":
+                    cons_x_col = 0
+                elif board[i][j] == "O":
+                    cons_y_col = 0
                 if (
-                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
-                    and self.copy_board_state[i][j] == "X"
-                    and (
-                        Counter(self.copy_board_state[:, j])["X"]
-                        + Counter(self.copy_board_state[:, j])["."]
-                    )
-                    == self.target
+                    board[i][j] == board[i + 1][j]
+                    and board[i][j] == "X"
+                    and (Counter(board[:, j])["X"] + Counter(board[:, j])["."])
+                    >= self.target
                 ):
                     cons_x_col += 1
                 elif (
-                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
-                    and self.copy_board_state[i][j] == "O"
-                    and (
-                        Counter(self.copy_board_state[:, j])["O"]
-                        + Counter(self.copy_board_state[:, j])["."]
-                    )
-                    == self.target
+                    board[i][j] == board[i + 1][j]
+                    and board[i][j] == "O"
+                    and (Counter(board[:, j])["O"] + Counter(board[:, j])["."])
+                    >= self.target
                 ):
                     cons_y_col += 1
 
-        for i in range(self.copy_board_state.shape[1]):
-            diag = np.diagonal(self.copy_board_state, offset=i)
-            flip_diag = np.flipud(self.copy_board_state).diagonal(offset=i)
-            if len(diag) == self.target and "O" not in diag:
-                cons_x_diag += 1
-            if len(flip_diag) == self.target and "O" not in flip_diag:
-                cons_x_diag += 1
-            if len(diag) == self.target and "X" not in diag:
-                cons_y_diag += 1
-            if len(flip_diag) == self.target and "X" not in flip_diag:
-                cons_y_diag += 1
+        for i in range(board.shape[1]):
+            diag = np.diagonal(board, offset=i)
+            b_diag1 = np.diagonal(board, offset=i, axis1=1, axis2=0)
+            flip_diag = np.flipud(board).diagonal(offset=i)
+            b_diag2 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0)
 
+            if len(diag) >= self.target:
+                for i in range(0, len(diag)):
+                    try:
+                        sub_diag = diag[i : i + self.target]
+                    except:
+                        break
+                    if "O" not in sub_diag and "X" in sub_diag:
+                        cons_x_diag += 1
+                    elif "X" not in sub_diag and "O" in sub_diag:
+                        cons_y_diag += 1
+
+            if len(b_diag1) >= self.target:
+                for i in range(0, len(b_diag1)):
+                    try:
+                        sub_diag = b_diag1[i : i + self.target]
+                    except:
+                        break
+                    if "O" not in sub_diag and "X" in sub_diag:
+                        cons_x_diag += 1
+                    elif "X" not in sub_diag and "O" in sub_diag:
+                        cons_y_diag += 1
+
+            if len(b_diag2) >= self.target:
+                for i in range(0, len(b_diag2)):
+                    try:
+                        sub_diag = b_diag2[i : i + self.target]
+                    except:
+                        break
+                    if "O" not in sub_diag and "X" in sub_diag:
+                        cons_x_diag += 1
+                    elif "X" not in sub_diag and "O" in sub_diag:
+                        cons_y_diag += 1
+
+            if len(flip_diag) >= self.target:
+                for i in range(0, len(flip_diag)):
+                    try:
+                        sub_diag = flip_diag[i : i + self.target]
+                    except:
+                        break
+                    if "O" not in sub_diag and "X" in sub_diag:
+                        cons_x_diag += 1
+                    elif "X" not in sub_diag and "O" in sub_diag:
+                        cons_y_diag += 1
+
+        # print(cons_x_row, cons_x_col, cons_x_diag)
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(
             cons_y_row, cons_y_col, cons_y_diag
         ):
@@ -115,19 +156,40 @@ class Game:
             return (0, 0, 0)
 
     def is_won(self, player, board):
+
         is_won = False
-        for indexes in self.check_indexes(self.n):
-            cnt = 0
-            for r, c in indexes:
-                if board[r][c] == player:
-                    cnt += 1
-                else:
-                    cnt = 0
-                if cnt == self.target:
-                    is_won = True
+
+        rows = list()
+        cols = list()
+        diags = list()
+        winning_pattern = player * self.target
+
+        for i in range(board.shape[0]):
+            sublist = board[i].tolist()
+            ele = ''.join(sublist)
+            if winning_pattern in ele:
+                is_won = True
+        for i in range(board.shape[1]):
+            sublist = board[:, i].tolist()
+            ele = ''.join(sublist)
+            if winning_pattern in ele and is_won == False:
+                is_won = True
+        for i in range(board.shape[1]):
+            d1 = np.diagonal(board, offset=i).tolist()
+            d2 = np.diagonal(board, offset=i, axis1=1, axis2=0).tolist()
+            d3 = np.flipud(board).diagonal(offset=i).tolist()
+            d4 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0).tolist()
+            ele1 = ''.join(d1)
+            ele2 = ''.join(d2)
+            ele3 = ''.join(d3)
+            ele4 = ''.join(d4)
+
+            if winning_pattern in ele1 or winning_pattern in ele2 or winning_pattern in ele3 or winning_pattern in ele4 and is_won == False:
+                is_won = True
+
         if is_won and player == "X":
             return (1, 0, 0)
-        if is_won and player == "O":
+        elif is_won and player == "O":
             return (-1, 0, 0)
 
     def is_end_of_game(self, depth: int, board):
@@ -140,26 +202,6 @@ class Game:
         elif depth == 0:
             return True
         return False
-
-    def check_indexes(self, n):
-        for r in range(n):
-            yield [(r, c) for c in range(n)]
-        for c in range(n):
-            yield [(r, c) for r in range(n)]
-        diag_idx = []
-        flip_diag_idx = []
-        for i in range(n):
-            r, c = kth_diag_indices(self.curr_board_state, i)
-            if len(r) == self.target:
-                for k in range(0, len(r)):
-                    diag_idx.append((r[k], c[k]))
-        for i in range(n):
-            r, c = kth_diag_indices(np.flipud(self.curr_board_state), i)
-            if len(r) == self.target:
-                for k in range(0, len(r)):
-                    flip_diag_idx.append((r[k], c[k]))
-        yield diag_idx
-        yield flip_diag_idx
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
@@ -175,7 +217,7 @@ class Game:
             elif self.is_won("O", self.copy_board_state) is not None:
                 return self.is_won("O", self.copy_board_state)
             else:
-                return self.heuristics()
+                return self.heuristics(self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -215,7 +257,7 @@ class Game:
             elif self.is_won("O", self.copy_board_state) is not None:
                 return self.is_won("O", self.copy_board_state)
             else:
-                return self.heuristics()
+                return self.heuristics(self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -264,14 +306,14 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
         print("{} makes this move: {}, {}".format(game.player, min_x, min_y))
         req.make_a_move(game_id, (min_x, min_y))
         moves = req.get_move_list(game_id)["moves"]
-        game.curr_board_state[min_x][min_y] = "O"
+        game.curr_board_state[min_x][min_y] = game.player
         game.nmoves += 1
         game.draw_board()
         if game.is_end_of_game(max_depth, game.curr_board_state):
             break
-        # wait for the opponent to make a move
         while req.get_move_list(game_id)["moves"] == moves:
             time.sleep(1)
+        
         updated_moves = req.get_move_list(game_id)
         for move in updated_moves["moves"][0]:
             symbol = move["symbol"]
