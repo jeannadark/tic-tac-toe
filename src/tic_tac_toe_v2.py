@@ -119,7 +119,6 @@ class Game:
                     elif "X" not in sub_diag and "O" in sub_diag:
                         cons_y_diag += 1
 
-        # print(cons_x_row, cons_x_col, cons_x_diag)
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(
             cons_y_row, cons_y_col, cons_y_diag
         ):
@@ -130,6 +129,7 @@ class Game:
             return (-1, 0, 0)
         else:
             return (0, 0, 0)
+
 
     def is_won(self, player, board):
 
