@@ -290,10 +290,9 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
         game.draw_board()
         if game.is_end_of_game(max_depth, game.curr_board_state):
             break
-        while req.get_move_list(game_id)["moves"]["symbol"] != game.oppo_player:
+        while req.get_move_list(game_id)["moves"][0]["symbol"] != game.oppo_player:
             time.sleep(1)
         move = req.get_move_list(game_id)["moves"][0]
-        print(req.get_move_list(game_id)["moves"][0])
         symbol = move["symbol"]
         x = int(move["move"].split(",")[0])
         y = int(move["move"].split(",")[1])
