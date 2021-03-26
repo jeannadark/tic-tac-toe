@@ -1,15 +1,17 @@
 import numpy as np
 import requester as req
 from copy import deepcopy
+from collections import Counter
 import time
+from helper import kth_diag_indices
 
 
 class Game:
     def __init__(self, n, m, player):
         self.n = n
         self.target = m
-        self.curr_board_state = np.zeros((n, n)).astype(str)
-        self.copy_board_state = np.zeros((n, n)).astype(str)
+        self.curr_board_state = np.full([n, n], ".")
+        self.copy_board_state = np.full([n, n], ".")
         self.nmoves = 0
         self.player = player
 
@@ -29,65 +31,97 @@ class Game:
         num = 0
         for i in range(0, self.n):
             for j in range(0, self.n):
-                if board[i][j] != "0.0":
+                if board[i][j] != ".":
                     num += 1
         if num == self.n * self.n:
             return True
         return False
 
     def heuristics(self):
-        cons_x = 0
-        cons_y = 0
-        prev_val = 0
-        x_row_maxes = []
-        o_row_maxes = []
-
+        cons_x_row = 0
+        cons_x_col = 0
+        cons_x_diag = 0
+        cons_y_row = 0
+        cons_y_col = 0
+        cons_y_diag = 0
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "X"
+                    and (
+                        Counter(self.copy_board_state[i])["X"]
+                        + Counter(self.copy_board_state[i])["."]
+                    )
+                    == self.target
                 ):
-                    cons_x += 1
+                    cons_x_row += 1
+
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "O"
+                    and (
+                        Counter(self.copy_board_state[i])["O"]
+                        + Counter(self.copy_board_state[i])["."]
+                    )
+                    == self.target
                 ):
-                    cons_y += 1
+                    cons_y_row += 1
+
         for i in range(0, self.n - 1):
             for j in range(0, self.n):
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "X"
+                    and (
+                        Counter(self.copy_board_state[:, j])["X"]
+                        + Counter(self.copy_board_state[:, j])["."]
+                    )
+                    == self.target
                 ):
-                    cons_x += 1
+                    cons_x_col += 1
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "O"
+                    and (
+                        Counter(self.copy_board_state[:, j])["O"]
+                        + Counter(self.copy_board_state[:, j])["."]
+                    )
+                    == self.target
                 ):
-                    cons_y += 1
-        for i in range(0, self.n - 1):
-            if (
-                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
-                and self.copy_board_state[i][i] == "X"
-            ):
-                cons_x += 1
-            elif (
-                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
-                and self.copy_board_state[i][i] == "O"
-            ):
-                cons_y += 1
-        if cons_x > cons_y:
+                    cons_y_col += 1
+
+        for i in range(self.copy_board_state.shape[1]):
+            diag = np.diagonal(self.copy_board_state, offset=i)
+            flip_diag = np.flipud(self.copy_board_state).diagonal(offset=i)
+            if len(diag) == self.target and "O" not in diag:
+                cons_x_diag += 1
+            if len(flip_diag) == self.target and "O" not in flip_diag:
+                cons_x_diag += 1
+            if len(diag) == self.target and "X" not in diag:
+                cons_y_diag += 1
+            if len(flip_diag) == self.target and "X" not in flip_diag:
+                cons_y_diag += 1
+
+        if max(cons_x_row, cons_x_col, cons_x_diag) > max(
+            cons_y_row, cons_y_col, cons_y_diag
+        ):
             return (1, 0, 0)
-        elif cons_x < cons_y:
+        elif max(cons_x_row, cons_x_col, cons_x_diag) < max(
+            cons_y_row, cons_y_col, cons_y_diag
+        ):
             return (-1, 0, 0)
         else:
             return (0, 0, 0)
 
     def is_won(self, player, board):
         is_won = False
-        for indexes in self.check_indexes(self.target):
-            if all(board[r][c] == player for r, c in indexes):
+        for indexes in self.check_indexes(self.n):
+            cnt = 0
+            for r, c in indexes:
+                if board[r][c] == player:
+                    cnt += 1
+            if cnt == self.target:
                 is_won = True
         if is_won and player == "X":
             return (1, 0, 0)
@@ -110,8 +144,20 @@ class Game:
             yield [(r, c) for c in range(n)]
         for c in range(n):
             yield [(r, c) for r in range(n)]
-        yield [(i, i) for i in range(n)]
-        yield [(i, n - 1 - i) for i in range(n)]
+        diag_idx = []
+        flip_diag_idx = []
+        for i in range(n):
+            r, c = kth_diag_indices(self.curr_board_state, i)
+            if len(r) == self.target:
+                for k in range(0, len(r)):
+                    diag_idx.append((r[k], c[k]))
+        for i in range(n):
+            r, c = kth_diag_indices(np.flipud(self.curr_board_state), i)
+            if len(r) == self.target:
+                for k in range(0, len(r)):
+                    flip_diag_idx.append((r[k], c[k]))
+        yield diag_idx
+        yield flip_diag_idx
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
@@ -132,7 +178,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call minimizer
-                if self.copy_board_state[i][j] == "0.0":
+                if self.copy_board_state[i][j] == ".":
                     self.copy_board_state[i][j] = self.oppo_player
                     v, min_x, min_y = self.min_value(alpha, beta, depth - 1)
 
@@ -142,7 +188,7 @@ class Game:
                         max_x = i
                         max_y = j
                     # undo move
-                    self.copy_board_state[i][j] = "0.0"
+                    self.copy_board_state[i][j] = "."
                     # print(max_value, beta, alpha)
                     # stop examining moves, if current value better than beta
                     if max_value >= beta:
@@ -172,7 +218,7 @@ class Game:
         for i in range(0, self.n):
             for j in range(0, self.n):
                 # if empty, make a move and call maximizer
-                if self.copy_board_state[i][j] == "0.0":
+                if self.copy_board_state[i][j] == ".":
                     self.copy_board_state[i][j] = self.player
                     v, max_x, max_y = self.max_value(alpha, beta, depth - 1)
 
@@ -182,7 +228,7 @@ class Game:
                         min_x = i
                         min_y = j
                     # undo move
-                    self.copy_board_state[i][j] = "0.0"
+                    self.copy_board_state[i][j] = "."
 
                     # stop examining moves, if current value is already less than alpha
                     if min_value <= alpha:
@@ -210,13 +256,13 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
         min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
-        if game.curr_board_state[min_x][min_y] != "0.0":
+        if game.curr_board_state[min_x][min_y] != ".":
             print("Incorrect move made by your code!")
             break
         print("{} makes this move: {}, {}".format(game.player, min_x, min_y))
         req.make_a_move(game_id, (min_x, min_y))
         moves = req.get_move_list(game_id)["moves"]
-        game.curr_board_state[min_x][min_y] = game.player
+        game.curr_board_state[min_x][min_y] = "O"
         game.nmoves += 1
         game.draw_board()
         if game.is_end_of_game(max_depth, game.curr_board_state):
@@ -229,7 +275,7 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
             symbol = move["symbol"]
             x = int(move["move"].split(",")[0])
             y = int(move["move"].split(",")[1])
-            if game.curr_board_state[x][y] != "0.0":
+            if game.curr_board_state[x][y] != ".":
                 print("Incorrect move made by opponent!")
                 break
             print("{} makes this move: {}, {}".format(game.oppo_player, x, y))
@@ -257,7 +303,7 @@ if __name__ == "__main__":
     opponent_team_id = int(input("Please enter opponent team id: \n"))
     if game_id == 0:
         game_id = req.create_game(opponent_team_id)
-        print('Game ID is ' + str(game_id) + '\n')
+        print("Game ID is " + str(game_id) + "\n")
     n, m = input("Enter n and m for an n x n game with target m: ").split()
     player = str(input("Play as X or O?\n"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)

@@ -22,13 +22,13 @@ def create_game(opponent_team: int):
         "userId": USERID,
         "Content-Type": "application/x-www-form-urlencoded",
     }
-    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn = http.client.HTTPSConnection("www.notexponential.com")
 
-    conn.request("POST", '/aip2pgaming/api/index.php', payload, headers)
+    conn.request("POST", "/aip2pgaming/api/index.php", payload, headers)
     response = conn.getresponse()
     data = response.read()
 
-    return ast.literal_eval(data.decode('utf-8'))["gameId"]
+    return ast.literal_eval(data.decode("utf-8"))["gameId"]
 
 
 def make_a_move(game_id: int, move: tuple):
@@ -49,8 +49,8 @@ def make_a_move(game_id: int, move: tuple):
         "userId": USERID,
         "Content-Type": "application/x-www-form-urlencoded",
     }
-    conn = http.client.HTTPSConnection('www.notexponential.com')
-    conn.request("POST", '/aip2pgaming/api/index.php', payload, headers)
+    conn = http.client.HTTPSConnection("www.notexponential.com")
+    conn.request("POST", "/aip2pgaming/api/index.php", payload, headers)
     response = conn.getresponse()
     data = response.read()
     # print(ast.literal_eval(data.decode('utf-8')))
@@ -70,26 +70,23 @@ def get_move_list(game_id: int, count: int = 2):
         "userId": USERID,
     }
 
-    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn = http.client.HTTPSConnection("www.notexponential.com")
     conn.request("GET", get_moves_url, payload, headers)
     response = conn.getresponse()
     data = response.read()
     # print(data)
     # print(ast.literal_eval(data.decode('utf-8')))
 
-    return ast.literal_eval(data.decode('utf-8'))
+    return ast.literal_eval(data.decode("utf-8"))
 
 
 def get_board_map(game_id: int):
     """Print board map."""
-    board_map_url = (
-        "/aip2pgaming/api/index.php?type=boardMap&gameId="
-        + str(game_id)
-    )
+    board_map_url = "/aip2pgaming/api/index.php?type=boardMap&gameId=" + str(game_id)
     payload = {}
     headers = {"x-api-key": API_KEY, "userId": USERID}
 
-    conn = http.client.HTTPSConnection('www.notexponential.com')
+    conn = http.client.HTTPSConnection("www.notexponential.com")
     conn.request("GET", board_map_url, payload, headers)
     response = conn.getresponse()
     data = response.read()
