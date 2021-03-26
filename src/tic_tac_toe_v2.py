@@ -123,9 +123,9 @@ class Game:
         max_wins_y = max(cons_y_row, cons_y_col, cons_y_diag)
 
         if max_wins_x > max_wins_y:
-            return (max_wins_x, 0, 0)
+            return (1, 0, 0)
         elif max_wins_x < max_wins_y:
-            return (-max_wins_y, 0, 0)
+            return (-1, 0, 0)
         else:
             return (0, 0, 0)
 
@@ -279,6 +279,7 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
         p_value, p_x, p_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
+        print(game.curr_board_state[p_x][p_y])
         if game.curr_board_state[p_x][p_y] != ".":
             print("Incorrect move made by your code!")
             break
