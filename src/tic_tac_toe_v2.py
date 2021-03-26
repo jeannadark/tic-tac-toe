@@ -292,11 +292,11 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
             break
         time = 0
         while req.get_move_list(game_id)["moves"] == moves:
-            print(time)
             time += 1
             if time > 10:
                 break
         move = req.get_move_list(game_id)["moves"][0]
+        print(req.get_move_list(game_id)["moves"][0])
         symbol = move["symbol"]
         x = int(move["move"].split(",")[0])
         y = int(move["move"].split(",")[1])
