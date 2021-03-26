@@ -90,7 +90,7 @@ class Game:
 
     def is_won(self, player, board):
         is_won = False
-        for indexes in self.check_indexes(self.target):
+        for indexes in self.check_indexes(self.n):
             cnt = 0
             for r, c in indexes:
                 if board[r][c] == player:
