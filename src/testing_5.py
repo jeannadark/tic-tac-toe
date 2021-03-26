@@ -75,37 +75,77 @@ class Game:
             flip_diag = np.flipud(self.copy_board_state).diagonal(offset = i)
             b_diag2 = np.flipud(self.copy_board_state).diagonal(offset = i, axis1=1, axis2=0)
 
-            charseq = dict()
-            charseq['X'] = 0
-            charseq['O'] = 0
             if len(diag) >= self.target:
                 for i in range(0, len(diag)-1):
                     if diag[i] == diag[i+1] and diag[i] == 'X':
-                        charseq['X'] += 1
+                        cons_x_diag += 1
                     elif diag[i] == diag[i+1] and diag[i] == '.'
-                        charseq['X'] += 1
-                        charseq['O'] += 1
+                        cons_x_diag += 1
+                        cons_y_diag += 1
                     elif diag[i] != diag[i+1] and diag[i] == '.' and diag[i+1] == 'X':
-                        charseq['X'] += 1
+                        cons_x_diag += 1
                     elif diag[i] != diag[i+1] and diag[i+1] == '.' and diag[i] == 'X':
-                        charseq['X'] += 1
-                    
+                        cons_x_diag += 1
+                    elif diag[i] == diag[i+1] and diag[i] == 'O':
+                        cons_y_diag += 1
+                    elif diag[i] != diag[i+1] and diag[i] == '.' and diag[i+1] == 'O':
+                        cons_y_diag += 1
+                    elif diag[i] != diag[i+1] and diag[i+1] == '.' and diag[i] == 'O':
+                        cons_y_diag += 1
 
+            if len(b_diag1) >= self.target:
+                for i in range(0, len(b_diag1)-1):
+                    if b_diag1[i] == b_diag1[i+1] and b_diag1[i] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag1[i] == b_diag1[i+1] and b_diag1[i] == '.'
+                        cons_x_diag += 1
+                        cons_y_diag += 1
+                    elif b_diag1[i] != b_diag1[i+1] and b_diag1[i] == '.' and b_diag1[i+1] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag1[i] != b_diag1[i+1] and b_diag1[i+1] == '.' and b_diag1[i] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag1[i] == b_diag1[i+1] and b_diag1[i] == 'O':
+                        cons_y_diag += 1
+                    elif b_diag1[i] != b_diag1[i+1] and b_diag1[i] == '.' and b_diag1[i+1] == 'O':
+                        cons_y_diag += 1
+                    elif b_diag1[i] != b_diag1[i+1] and b_diag1[i+1] == '.' and b_diag1[i] == 'O':
+                        cons_y_diag += 1
 
-            if len(flip_diag) >= self.target and 'O' not in flip_diag and 'X' in flip_diag:
-                cons_x_diag += 1
-            if len(b_diag1) >= self.target and 'O' not in b_diag1 and 'X' in b_diag1:
-                cons_x_diag += 1
-            if len(b_diag2) >= self.target and 'O' not in b_diag2 and 'X' in b_diag2:
-                cons_x_diag += 1
-            if len(diag) >= self.target and 'X' not in diag and 'O' in diag:
-                cons_y_diag += 1
-            if len(flip_diag) >= self.target and 'X' not in flip_diag and 'O' in flip_diag:
-                cons_y_diag += 1
-            if len(b_diag1) >= self.target and 'X' not in b_diag1 and 'O' in b_diag1:
-                cons_y_diag += 1
-            if len(b_diag2) >= self.target and 'X' not in b_diag2 and 'O' in b_diag2:
-                cons_y_diag += 1
+            if len(b_diag2) >= self.target:
+                for i in range(0, len(b_diag2)-1):
+                    if b_diag2[i] == b_diag2[i+1] and b_diag2[i] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag2[i] == b_diag2[i+1] and b_diag2[i] == '.'
+                        cons_x_diag += 1
+                        cons_y_diag += 1
+                    elif b_diag2[i] != b_diag2[i+1] and b_diag2[i] == '.' and b_diag2[i+1] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag2[i] != b_diag2[i+1] and b_diag2[i+1] == '.' and b_diag2[i] == 'X':
+                        cons_x_diag += 1
+                    elif b_diag2[i] == b_diag2[i+1] and b_diag2[i] == 'O':
+                        cons_y_diag += 1
+                    elif b_diag2[i] != b_diag2[i+1] and b_diag2[i] == '.' and b_diag2[i+1] == 'O':
+                        cons_y_diag += 1
+                    elif b_diag2 != b_diag2[i+1] and b_diag2[i+1] == '.' and b_diag2[i] == 'O':
+                        cons_y_diag += 1
+
+            if len(flip_diag ) >= self.target:
+                for i in range(0, len(flip_diag )-1):
+                    if flip_diag[i] == flip_diag[i+1] and flip_diag[i] == 'X':
+                        cons_x_diag += 1
+                    elif flip_diag[i] == flip_diag[i+1] and flip_diag[i] == '.'
+                        cons_x_diag += 1
+                        cons_y_diag += 1
+                    elif flip_diag[i] != flip_diag[i+1] and flip_diag[i] == '.' and flip_diag[i+1] == 'X':
+                        cons_x_diag += 1
+                    elif flip_diag[i] != flip_diag[i+1] and flip_diag[i+1] == '.' and flip_diag[i] == 'X':
+                        cons_x_diag += 1
+                    elif flip_diag[i] == flip_diag[i+1] and flip_diag[i] == 'O':
+                        cons_y_diag += 1
+                    elif flip_diag[i] != flip_diag[i+1] and flip_diag[i] == '.' and flip_diag[i+1] == 'O':
+                        cons_y_diag += 1
+                    elif flip_diag != flip_diag[i+1] and flip_diag[i+1] == '.' and flip_diag[i] == 'O':
+                        cons_y_diag += 1
 
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
             return (1, 0, 0)
