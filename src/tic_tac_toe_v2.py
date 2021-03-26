@@ -266,6 +266,9 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     game = Game(n=n, m=m, player=player)
 
     try:
+        while req.get_move_list(game_id)["moves"][0]["symbol"] != game.oppo_player:
+            time.sleep(1)
+        
         initial_move = req.get_move_list(game_id)["moves"][0]
         x = int(initial_move["move"].split(",")[0])
         y = int(initial_move["move"].split(",")[1])
@@ -284,7 +287,6 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
             break
         print("{} makes this move: {}, {}".format(game.player, p_x, p_y))
         req.make_a_move(game_id, (p_x, p_y))
-        moves = req.get_move_list(game_id)["moves"]
         game.curr_board_state[p_x][p_y] = game.player
         game.nmoves += 1
         game.draw_board()
