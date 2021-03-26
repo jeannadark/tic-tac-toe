@@ -43,14 +43,14 @@ class Game:
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "X"
-                    and (Counter(self.copy_board_state[i])['X'] + Counter(self.copy_board_state[i])['.']) == self.target
+                    and (Counter(self.copy_board_state[i])['X'] + Counter(self.copy_board_state[i])['.']) >= self.target
                 ):
                     cons_x_row += 1
 
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
                     and self.copy_board_state[i][j] == "O"
-                    and (Counter(self.copy_board_state[i])['O'] + Counter(self.copy_board_state[i])['.']) == self.target
+                    and (Counter(self.copy_board_state[i])['O'] + Counter(self.copy_board_state[i])['.']) >= self.target
                 ):
                     cons_y_row += 1
 
@@ -59,13 +59,13 @@ class Game:
                 if (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "X"
-                    and (Counter(self.copy_board_state[:, j])['X'] + Counter(self.copy_board_state[:, j])['.']) == self.target
+                    and (Counter(self.copy_board_state[:, j])['X'] + Counter(self.copy_board_state[:, j])['.']) >= self.target
                 ):
                     cons_x_col += 1
                 elif (
                     self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
                     and self.copy_board_state[i][j] == "O"
-                    and (Counter(self.copy_board_state[:, j])['O'] + Counter(self.copy_board_state[:, j])['.']) == self.target
+                    and (Counter(self.copy_board_state[:, j])['O'] + Counter(self.copy_board_state[:, j])['.']) >= self.target
                 ):
                     cons_y_col += 1
         
@@ -119,6 +119,7 @@ class Game:
                     elif 'X' not in sub_diag and 'O' in sub_diag:
                         cons_y_diag += 1
 
+        print(cons_x_row, cons_x_col, cons_x_diag)
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
             return (1, 0, 0)
         elif max(cons_x_row, cons_x_col, cons_x_diag)< max(cons_y_row, cons_y_col, cons_y_diag):
