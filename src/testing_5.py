@@ -126,7 +126,7 @@ class Game:
                         cons_y_diag += 1
                     elif b_diag2[i] != b_diag2[i+1] and b_diag2[i] == '.' and b_diag2[i+1] == 'O':
                         cons_y_diag += 1
-                    elif b_diag2 != b_diag2[i+1] and b_diag2[i+1] == '.' and b_diag2[i] == 'O':
+                    elif b_diag2[i] != b_diag2[i+1] and b_diag2[i+1] == '.' and b_diag2[i] == 'O':
                         cons_y_diag += 1
 
             if len(flip_diag ) >= self.target:
@@ -144,7 +144,7 @@ class Game:
                         cons_y_diag += 1
                     elif flip_diag[i] != flip_diag[i+1] and flip_diag[i] == '.' and flip_diag[i+1] == 'O':
                         cons_y_diag += 1
-                    elif flip_diag != flip_diag[i+1] and flip_diag[i+1] == '.' and flip_diag[i] == 'O':
+                    elif flip_diag[i] != flip_diag[i+1] and flip_diag[i+1] == '.' and flip_diag[i] == 'O':
                         cons_y_diag += 1
 
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
