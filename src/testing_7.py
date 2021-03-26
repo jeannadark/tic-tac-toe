@@ -49,7 +49,7 @@ class Game:
                 if "O" not in sub_row and Counter(sub_row)["X"] >= 2:
                     cons_x_row += 100
                 elif "X" not in sub_row and Counter(sub_row)["O"] >= 2:
-                    cons_y_row += 100
+                    cons_y_row += -100
 
         for i in range(0, self.n):
             col = board[:, i]
