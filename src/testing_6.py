@@ -31,7 +31,7 @@ class Game:
             return True
         return False
     
-    def heuristics(self):
+    def heuristics(self, board):
         cons_x_row = 0
         cons_x_col = 0
         cons_x_diag = 0
@@ -40,40 +40,56 @@ class Game:
         cons_y_diag = 0
         for i in range(0, self.n):
             for j in range(0, self.n - 1):
+                if cons_x_row==self.target:
+                    return (1, 0, 0)
+                elif cons_y_row==self.target:
+                    return (-1, 0, 0)
+                if board[i][j]=='X':
+                    cons_y_row=0
+                elif board[i][j]=='O':
+                    cons_x_row = 0
                 if (
-                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
-                    and self.copy_board_state[i][j] == "X"
-                    and (Counter(self.copy_board_state[i])['X'] + Counter(self.copy_board_state[i])['.']) >= self.target
+                    board[i][j] == board[i][j + 1]
+                    and board[i][j] == "X"
+                    and (Counter(board[i])['X'] + Counter(board[i])['.']) >= self.target
                 ):
                     cons_x_row += 1
 
                 elif (
-                    self.copy_board_state[i][j] == self.copy_board_state[i][j + 1]
-                    and self.copy_board_state[i][j] == "O"
-                    and (Counter(self.copy_board_state[i])['O'] + Counter(self.copy_board_state[i])['.']) >= self.target
+                    board[i][j] == board[i][j + 1]
+                    and board[i][j] == "O"
+                    and (Counter(board[i])['O'] + Counter(board[i])['.']) >= self.target
                 ):
                     cons_y_row += 1
 
         for i in range(0, self.n - 1):
             for j in range(0, self.n):
+                if cons_x_col==self.target:
+                    return (1, 0, 0)
+                elif cons_y_col==self.target:
+                    return (-1, 0, 0)
+                if board[i][j]=='X':
+                    cons_x_col=0
+                elif board[i][j]=='O':
+                    cons_y_col = 0
                 if (
-                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
-                    and self.copy_board_state[i][j] == "X"
-                    and (Counter(self.copy_board_state[:, j])['X'] + Counter(self.copy_board_state[:, j])['.']) >= self.target
+                    board[i][j] == board[i + 1][j]
+                    and board[i][j] == "X"
+                    and (Counter(board[:, j])['X'] + Counter(board[:, j])['.']) >= self.target
                 ):
                     cons_x_col += 1
                 elif (
-                    self.copy_board_state[i][j] == self.copy_board_state[i + 1][j]
-                    and self.copy_board_state[i][j] == "O"
-                    and (Counter(self.copy_board_state[:, j])['O'] + Counter(self.copy_board_state[:, j])['.']) >= self.target
+                    board[i][j] == board[i + 1][j]
+                    and board[i][j] == "O"
+                    and (Counter(board[:, j])['O'] + Counter(board[:, j])['.']) >= self.target
                 ):
                     cons_y_col += 1
         
-        for i in range(self.copy_board_state.shape[1]):
-            diag = np.diagonal(self.copy_board_state, offset = i)
-            b_diag1 = np.diagonal(self.copy_board_state, offset = i, axis1=1, axis2=0)
-            flip_diag = np.flipud(self.copy_board_state).diagonal(offset = i)
-            b_diag2 = np.flipud(self.copy_board_state).diagonal(offset = i, axis1=1, axis2=0)
+        for i in range(board.shape[1]):
+            diag = np.diagonal(board, offset = i)
+            b_diag1 = np.diagonal(board, offset = i, axis1=1, axis2=0)
+            flip_diag = np.flipud(board).diagonal(offset = i)
+            b_diag2 = np.flipud(board).diagonal(offset = i, axis1=1, axis2=0)
 
             if len(diag) >= self.target:
                 for i in range(0, len(diag)):
@@ -119,7 +135,7 @@ class Game:
                     elif 'X' not in sub_diag and 'O' in sub_diag:
                         cons_y_diag += 1
 
-        print(cons_x_row, cons_x_col, cons_x_diag)
+        # print(cons_x_row, cons_x_col, cons_x_diag)
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
             return (1, 0, 0)
         elif max(cons_x_row, cons_x_col, cons_x_diag)< max(cons_y_row, cons_y_col, cons_y_diag):
@@ -189,7 +205,7 @@ class Game:
             elif self.is_won("O", self.copy_board_state) is not None:
                 return self.is_won("O", self.copy_board_state)
             else:
-                return self.heuristics()
+                return self.heuristics(self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -229,7 +245,7 @@ class Game:
             elif self.is_won("O", self.copy_board_state) is not None:
                 return self.is_won("O", self.copy_board_state)
             else:
-                return self.heuristics()
+                return self.heuristics(self.copy_board_state)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
