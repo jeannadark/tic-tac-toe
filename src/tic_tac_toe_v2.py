@@ -99,7 +99,7 @@ class Game:
                 if "O" not in sub_col and Counter(sub_col)["X"] >= 2:
                     cons_x_col += 100
                 elif "X" not in sub_col and Counter(sub_col)["O"] >= 2:
-                    cons_y_col += -100
+                    cons_y_col += 100
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
