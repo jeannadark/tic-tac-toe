@@ -52,10 +52,10 @@ class Game:
                     sub_row = row[j: j + self.target]
                 except:
                     break
-                if "O" not in sub_row and "X" in sub_row:
-                    cons_x_row += 1
-                elif "X" not in sub_row and "O" in sub_row:
-                    cons_y_row += 1
+                if "O" not in sub_row and Counter(sub_row)["X"] >= 2:
+                    cons_x_row += 100
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= 2:
+                    cons_y_row += 100
 
         for i in range(0, self.n):
             col = board[:, i]
@@ -64,10 +64,10 @@ class Game:
                     sub_col = col[j: j + self.target]
                 except:
                     break
-                if "O" not in sub_col and "X" in sub_col:
-                    cons_x_col += 1
-                elif "X" not in sub_col and "O" in sub_col:
-                    cons_y_col += 1
+                if "O" not in sub_col and Counter(sub_col)["X"] >= 2:
+                    cons_x_col += 100
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= 2:
+                    cons_y_col += 100
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
@@ -81,10 +81,10 @@ class Game:
                         sub_diag = diag[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and "X" in sub_diag:
-                        cons_x_diag += 1
-                    elif "X" not in sub_diag and "O" in sub_diag:
-                        cons_y_diag += 1
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
+                        cons_x_diag += 100
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
+                        cons_y_diag += 100
 
             if len(b_diag1) >= self.target:
                 for i in range(0, len(b_diag1)):
@@ -92,10 +92,10 @@ class Game:
                         sub_diag = b_diag1[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and "X" in sub_diag:
-                        cons_x_diag += 1
-                    elif "X" not in sub_diag and "O" in sub_diag:
-                        cons_y_diag += 1
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
+                        cons_x_diag += 50
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
+                        cons_y_diag += 50
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -103,10 +103,10 @@ class Game:
                         sub_diag = b_diag2[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and "X" in sub_diag:
-                        cons_x_diag += 1
-                    elif "X" not in sub_diag and "O" in sub_diag:
-                        cons_y_diag += 1
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
+                        cons_x_diag += 50
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
+                        cons_y_diag += 50
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -114,10 +114,10 @@ class Game:
                         sub_diag = flip_diag[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and "X" in sub_diag:
-                        cons_x_diag += 1
-                    elif "X" not in sub_diag and "O" in sub_diag:
-                        cons_y_diag += 1
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
+                        cons_x_diag += 100
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
+                        cons_y_diag += 100
 
         max_wins_x = max(cons_x_row, cons_x_col, cons_x_diag)
         max_wins_y = max(cons_y_row, cons_y_col, cons_y_diag)
@@ -128,7 +128,6 @@ class Game:
             return (-1, 0, 0)
         else:
             return (0, 0, 0)
-
 
     def is_won(self, player, board):
 
