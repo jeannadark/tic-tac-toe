@@ -79,7 +79,7 @@ class Game:
                 for i in range(0, len(diag)-1):
                     if diag[i] == diag[i+1] and diag[i] == 'X':
                         cons_x_diag += 1
-                    elif diag[i] == diag[i+1] and diag[i] == '.'
+                    elif diag[i] == diag[i+1] and diag[i] == '.':
                         cons_x_diag += 1
                         cons_y_diag += 1
                     elif diag[i] != diag[i+1] and diag[i] == '.' and diag[i+1] == 'X':
@@ -97,7 +97,7 @@ class Game:
                 for i in range(0, len(b_diag1)-1):
                     if b_diag1[i] == b_diag1[i+1] and b_diag1[i] == 'X':
                         cons_x_diag += 1
-                    elif b_diag1[i] == b_diag1[i+1] and b_diag1[i] == '.'
+                    elif b_diag1[i] == b_diag1[i+1] and b_diag1[i] == '.':
                         cons_x_diag += 1
                         cons_y_diag += 1
                     elif b_diag1[i] != b_diag1[i+1] and b_diag1[i] == '.' and b_diag1[i+1] == 'X':
@@ -115,7 +115,7 @@ class Game:
                 for i in range(0, len(b_diag2)-1):
                     if b_diag2[i] == b_diag2[i+1] and b_diag2[i] == 'X':
                         cons_x_diag += 1
-                    elif b_diag2[i] == b_diag2[i+1] and b_diag2[i] == '.'
+                    elif b_diag2[i] == b_diag2[i+1] and b_diag2[i] == '.':
                         cons_x_diag += 1
                         cons_y_diag += 1
                     elif b_diag2[i] != b_diag2[i+1] and b_diag2[i] == '.' and b_diag2[i+1] == 'X':
@@ -133,7 +133,7 @@ class Game:
                 for i in range(0, len(flip_diag )-1):
                     if flip_diag[i] == flip_diag[i+1] and flip_diag[i] == 'X':
                         cons_x_diag += 1
-                    elif flip_diag[i] == flip_diag[i+1] and flip_diag[i] == '.'
+                    elif flip_diag[i] == flip_diag[i+1] and flip_diag[i] == '.':
                         cons_x_diag += 1
                         cons_y_diag += 1
                     elif flip_diag[i] != flip_diag[i+1] and flip_diag[i] == '.' and flip_diag[i+1] == 'X':
