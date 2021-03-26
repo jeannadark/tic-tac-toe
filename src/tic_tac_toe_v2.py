@@ -87,7 +87,7 @@ class Game:
                 if "O" not in sub_row and Counter(sub_row)["X"] >= 2:
                     cons_x_row += 100
                 elif "X" not in sub_row and Counter(sub_row)["O"] >= 2:
-                    cons_y_row += -100
+                    cons_y_row += 50
 
         for i in range(0, self.n):
             col = board[:, i]
@@ -99,7 +99,7 @@ class Game:
                 if "O" not in sub_col and Counter(sub_col)["X"] >= 2:
                     cons_x_col += 100
                 elif "X" not in sub_col and Counter(sub_col)["O"] >= 2:
-                    cons_y_col += 100
+                    cons_y_col += 50
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
@@ -116,7 +116,7 @@ class Game:
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
                         cons_x_diag += 100
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 100
+                        cons_y_diag += 50
 
             if len(b_diag1) >= self.target:
                 for i in range(0, len(b_diag1)):
@@ -127,7 +127,7 @@ class Game:
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
                         cons_x_diag += 100
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 100
+                        cons_y_diag += 50
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -138,7 +138,7 @@ class Game:
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
                         cons_x_diag += 100
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 100
+                        cons_y_diag += 50
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -149,15 +149,15 @@ class Game:
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
                         cons_x_diag += 100
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 100
+                        cons_y_diag += 50
 
-        max_wins_x = max(cons_x_row, cons_x_col, cons_x_diag)
-        max_wins_y = max(cons_y_row, cons_y_col, cons_y_diag)
+        max_wins_x = cons_x_row + cons_x_col + cons_x_diag
+        max_wins_y = cons_y_row + cons_y_col + cons_y_diag
 
         if max_wins_x > max_wins_y:
-            return (1, 0, 0)
+            return (max_wins_x - max_wins_y, 0, 0)
         elif max_wins_x < max_wins_y:
-            return (-1, 0, 0)
+            return (-(max_wins_y - max_wins_x), 0, 0)
         else:
             return (0, 0, 0)
 
@@ -246,7 +246,7 @@ class Game:
         :return: a tuple of max_value and coordinates for MAX
         :rtype: tuple
         """
-        max_value = -2
+        max_value = -float('inf')
         # initialize maximizer's coordinates
         max_x, max_y = None, None
 
@@ -297,7 +297,7 @@ class Game:
         :return: a tuple of min_value and coordinates for MIN
         :rtype: tuple
         """
-        min_value = 2
+        min_value = float('inf')
         # initialize minimizer's coordinates
         min_x, min_y = None, None
 
