@@ -22,4 +22,12 @@ First of all make sure you have Python installed on your computer. Then access t
 
 ```bash
 tic_tac_toe.py
+
+Enter Game ID if joining another game. To create your own, enter 0:
+
+Enter n and m for an n x n game with target m:
+
+Please enter opponent team id:
+
+Play as X (if entering someone's game) or O (if game is your own)?
 ```
