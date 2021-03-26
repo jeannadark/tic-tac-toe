@@ -279,10 +279,7 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
 
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
-        if game.player == 'O':
-            p_value, p_x, p_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
-        else:
-            p_value, p_x, p_y = game.max_value(alpha=-2, beta=2, depth=max_depth)
+        p_value, p_x, p_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
         if game.curr_board_state[p_x][p_y] != ".":
             print("Incorrect move made by your code!")
             break
