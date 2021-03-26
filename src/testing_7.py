@@ -8,6 +8,7 @@ from collections import Counter
 
 class Game:
     def __init__(self, n, m):
+        """init."""
         self.n = n
         self.target = m
         self.curr_board_state = np.full([n, n], ".")
