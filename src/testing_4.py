@@ -68,27 +68,16 @@ class Game:
                 ):
                     cons_y_col += 1
         
-        cnt = 0
-        cnt_x = 0
-        cnt_y = 0
-        for i in range(0, self.n-1):
-            if self.copy_board_state[i][i+cnt] == 'X' or self.copy_board_state[i][i+cnt] == '.':
-                cnt_x += 1
-            elif self.copy_board_state[i][i+cnt] == 'O' or self.copy_board_state[i][i+cnt] == '.':
-                cnt_y += 1
-
-        for i in range(0, self.n - 1):
-            if (
-                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
-                and self.copy_board_state[i][i] == "X"
-                and cnt_x == self.target
-            ):
+        for i in range(self.copy_board_state.shape[1]):
+            diag = np.diagonal(self.copy_board_state, offset = i)
+            flip_diag = np.flipud(self.copy_board_state).diagonal(offset = i)
+            if len(diag) == self.target and 'O' not in diag:
                 cons_x_diag += 1
-            elif (
-                self.copy_board_state[i][i] == self.copy_board_state[i + 1][i + 1]
-                and self.copy_board_state[i][i] == "O"
-                and cnt_y == self.target
-            ):
+            if len(flip_diag) == self.target and 'O' not in flip_diag:
+                cons_x_diag += 1
+            if len(diag) == self.target and 'X' not in diag:
+                cons_y_diag += 1
+            if len(flip_diag) == self.target and 'X' not in flip_diag:
                 cons_y_diag += 1
 
         if max(cons_x_row, cons_x_col, cons_x_diag) > max(cons_y_row, cons_y_col, cons_y_diag):
