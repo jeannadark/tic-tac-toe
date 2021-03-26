@@ -81,31 +81,31 @@ class Game:
             row = board[i]
             for j in range(0, len(row)):
                 try:
-                    sub_row = row[j: j + self.target]
+                    sub_row = row[j : j + self.target]
                 except:
                     break
-                if "O" not in sub_row and 'X' in sub_row:
+                if "O" not in sub_row and "X" in sub_row:
                     cons_x_row += Counter(sub_row)["X"] * 2
-                elif "X" not in sub_row and 'O' in sub_row:
+                elif "X" not in sub_row and "O" in sub_row:
                     cons_y_row += Counter(sub_row)["O"]
 
         for i in range(0, self.n):
             col = board[:, i]
             for j in range(0, len(col)):
                 try:
-                    sub_col = col[j: j + self.target]
+                    sub_col = col[j : j + self.target]
                 except:
                     break
-                if "O" not in sub_col and 'X' in sub_col:
+                if "O" not in sub_col and "X" in sub_col:
                     cons_x_col += Counter(sub_col)["X"] * 2
-                elif "X" not in sub_col and 'O' in sub_col:
+                elif "X" not in sub_col and "O" in sub_col:
                     cons_y_col += Counter(sub_col)["O"]
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
-            b_diag1 = np.diagonal(board, offset=i+1, axis1=1, axis2=0)
+            b_diag1 = np.diagonal(board, offset=i + 1, axis1=1, axis2=0)
             flip_diag = np.flipud(board).diagonal(offset=i)
-            b_diag2 = np.flipud(board).diagonal(offset=i+1, axis1=1, axis2=0)
+            b_diag2 = np.flipud(board).diagonal(offset=i + 1, axis1=1, axis2=0)
 
             if len(diag) >= self.target:
                 for i in range(0, len(diag)):
@@ -113,9 +113,9 @@ class Game:
                         sub_diag = diag[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and 'X' in sub_diag:
+                    if "O" not in sub_diag and "X" in sub_diag:
                         cons_x_diag += Counter(sub_diag)["X"] * 2
-                    elif "X" not in sub_diag and 'O' in sub_diag:
+                    elif "X" not in sub_diag and "O" in sub_diag:
                         cons_y_diag += Counter(sub_diag)["O"]
 
             if len(b_diag1) >= self.target:
@@ -124,9 +124,9 @@ class Game:
                         sub_diag = b_diag1[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and 'X' in sub_diag:
+                    if "O" not in sub_diag and "X" in sub_diag:
                         cons_x_diag += Counter(sub_diag)["X"] * 2
-                    elif "X" not in sub_diag and 'O' in sub_diag:
+                    elif "X" not in sub_diag and "O" in sub_diag:
                         cons_y_diag += Counter(sub_diag)["O"]
 
             if len(b_diag2) >= self.target:
@@ -135,9 +135,9 @@ class Game:
                         sub_diag = b_diag2[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and 'X' in sub_diag:
+                    if "O" not in sub_diag and "X" in sub_diag:
                         cons_x_diag += Counter(sub_diag)["X"] * 2
-                    elif "X" not in sub_diag and 'O' in sub_diag:
+                    elif "X" not in sub_diag and "O" in sub_diag:
                         cons_y_diag += Counter(sub_diag)["O"]
 
             if len(flip_diag) >= self.target:
@@ -146,9 +146,9 @@ class Game:
                         sub_diag = flip_diag[i : i + self.target]
                     except:
                         break
-                    if "O" not in sub_diag and 'X' in sub_diag:
+                    if "O" not in sub_diag and "X" in sub_diag:
                         cons_x_diag += Counter(sub_diag)["X"] * 2
-                    elif "X" not in sub_diag and 'O' in sub_diag:
+                    elif "X" not in sub_diag and "O" in sub_diag:
                         cons_y_diag += Counter(sub_diag)["O"]
 
         max_wins_x = cons_x_row + cons_x_col + cons_x_diag
@@ -181,12 +181,12 @@ class Game:
 
         for i in range(board.shape[0]):
             sublist = board[i].tolist()
-            ele = ''.join(sublist)
+            ele = "".join(sublist)
             if winning_pattern in ele:
                 is_won = True
         for i in range(board.shape[1]):
             sublist = board[:, i].tolist()
-            ele = ''.join(sublist)
+            ele = "".join(sublist)
             if winning_pattern in ele and is_won == False:
                 is_won = True
         for i in range(board.shape[1]):
@@ -194,12 +194,18 @@ class Game:
             d2 = np.diagonal(board, offset=i, axis1=1, axis2=0).tolist()
             d3 = np.flipud(board).diagonal(offset=i).tolist()
             d4 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0).tolist()
-            ele1 = ''.join(d1)
-            ele2 = ''.join(d2)
-            ele3 = ''.join(d3)
-            ele4 = ''.join(d4)
+            ele1 = "".join(d1)
+            ele2 = "".join(d2)
+            ele3 = "".join(d3)
+            ele4 = "".join(d4)
 
-            if winning_pattern in ele1 or winning_pattern in ele2 or winning_pattern in ele3 or winning_pattern in ele4 and is_won == False:
+            if (
+                winning_pattern in ele1
+                or winning_pattern in ele2
+                or winning_pattern in ele3
+                or winning_pattern in ele4
+                and is_won == False
+            ):
                 is_won = True
 
         if is_won and player == "X":
@@ -353,10 +359,10 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     max_depth = 3
     game = Game(n=n, m=m, player=player)
 
-    if player == 'X':
+    if player == "X":
         try:
             while req.get_move_list(game_id)["moves"][0]["symbol"] != game.oppo_player:
-                time.sleep(1)   
+                time.sleep(1)
             initial_move = req.get_move_list(game_id)["moves"][0]
             x = int(initial_move["move"].split(",")[0])
             y = int(initial_move["move"].split(",")[1])
@@ -415,5 +421,7 @@ if __name__ == "__main__":
     if game_id == 0:
         game_id = req.create_game(opponent_team_id, int(n), int(m))
         print("Game ID is " + str(game_id) + "\n")
-    player = str(input("Play as X (if entering someone's game) or O (if game is your own)?\n"))
+    player = str(
+        input("Play as X (if entering someone's game) or O (if game is your own)?\n")
+    )
     play_game(opponent_team_id, int(n), int(m), game_id, player)
