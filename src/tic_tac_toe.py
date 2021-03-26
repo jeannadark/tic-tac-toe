@@ -299,14 +299,17 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
 
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
-        min_value, min_x, min_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
-        if game.curr_board_state[min_x][min_y] != ".":
+        if game.player == 'O':
+            p_value, p_x, p_y = game.min_value(alpha=-2, beta=2, depth=max_depth)
+        else:
+            p_value, p_x, p_y = game.max_value(alpha=-2, beta=2, depth=max_depth)
+        if game.curr_board_state[p_x][p_y] != ".":
             print("Incorrect move made by your code!")
             break
-        print("{} makes this move: {}, {}".format(game.player, min_x, min_y))
-        req.make_a_move(game_id, (min_x, min_y))
+        print("{} makes this move: {}, {}".format(game.player, p_x, p_y))
+        req.make_a_move(game_id, (p_x, p_y))
         moves = req.get_move_list(game_id)["moves"]
-        game.curr_board_state[min_x][min_y] = game.player
+        game.curr_board_state[p_x][p_y] = game.player
         game.nmoves += 1
         game.draw_board()
         if game.is_end_of_game(max_depth, game.curr_board_state):
