@@ -37,7 +37,7 @@ Play as X (if entering someone's game) or O (if game is your own)?
 ## How it works
 
 1. tic_tac_toe.py file contains the Game class with the following variables: **n , target , curr_board_state , copy_board_state , player** and functions: **draw_board() , is_tie() , heuristics() , is_won() , is_end_of_game() , max_value() , min_value() , play_game()**
-2. **play_game()** initializes the game board and runs the game itself calling the API requestes from the requester.py file and running the min_value() and max_values() functions while constantly checking the end_game/ winning states of the game.
+2. **play_game()** initializes the game board and runs the game itself calling the API requests from the requester.py file and running the min_value() and max_values() functions while constantly checking the end_game/ winning states of the game.
 3. **heuristics()** function primarily helps the minimax algorithm to identify the bestmove based on the moves performed previously and the remaining cells along the board
-4. **is_tie(), is_won() , is_end_of_game()** - according to the naming of the funcitons they are responsible for checking the state of the game.
-5. requester.py file contains functions **create_game() , make_a_move() , get_move_list() , get_board_map()** that are responsible for establishing the connection to POSTMAN API and performing the actions according to their namings. 
+4. **is_tie(), is_won() , is_end_of_game()** - according to the naming of the functions they are responsible for checking the state of the game.
+5. requester.py file contains functions **create_game() , make_a_move() , get_move_list() , get_board_map()** that are responsible for establishing the connection to POSTMAN API and performing the actions according to their naming. 
