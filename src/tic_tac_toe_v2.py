@@ -4,10 +4,22 @@ from copy import deepcopy
 from collections import Counter
 import time
 from helper import kth_diag_indices
+from typing import Any
 
 
 class Game:
-    def __init__(self, n, m, player):
+    def __init__(self, n, m, player) -> None:
+        """Initializes the n x n game with target = m and registers the players.
+
+        The board and its copy for minimax is initialized here. Moves are counted in ``nmoves`` attribute.
+        
+        :param n: size of board
+        :type n: int
+        :param m: target of board
+        :type m: int
+        :param player: player of this code
+        :type player: str
+        """
         self.n = n
         self.target = m
         self.curr_board_state = np.full([n, n], ".")
@@ -20,14 +32,22 @@ class Game:
         else:
             self.oppo_player = "X"
 
-    def draw_board(self):
+    def draw_board(self) -> None:
+        """Draws the current state of the board."""
         for row in range(self.n):
             r = ""
             for column in range(self.n):
                 r = r + f" {self.curr_board_state[row][column]} |"
             print(r)
 
-    def is_tie(self, board):
+    def is_tie(self, board: Any) -> bool:
+        """Checks if the board is tied. The game is a tie if the whole board is filled but a win has not happened.
+        
+        :param board: the game board (either actual game board or its copy for minimax)
+        :type board: Any
+        :return: boolean check for tie
+        :rtype: bool
+        """
         num = 0
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -37,7 +57,19 @@ class Game:
             return True
         return False
 
-    def heuristics(self, board):
+    def heuristics(self, board: Any) -> tuple:
+        """Calculates the scores of the board state at a particular depth using heuristics.
+        
+        This function will check for at least two consecutive players in row, column and diagonal chunks of size = target.
+        The opponent's move are exaggerated by two times for an aggressive game and hence, a more robust recommendation for the player.
+        Note that the check is performed for all types of diagonals - flipped and non-flipped main ones and non-main ones.
+        The player with maximum total possible winning strategies is the one winning the game.
+
+        :param board: the board state during minimax
+        :type board: Any
+        :return: scores for players (+1 for opponent player, -1 for player, 0 for tie)
+        :rtype: tuple
+        """
         cons_x_row = 0
         cons_x_col = 0
         cons_x_diag = 0
@@ -129,8 +161,17 @@ class Game:
         else:
             return (0, 0, 0)
 
-    def is_won(self, player, board):
+    def is_won(self, player: str, board: Any):
+        """Checks for the presence of a winning pattern in rows, columns or any diagonals of the board.
+        Returns the scores for the winning player.
 
+        :param player: player of this code
+        :type player: str
+        :param board: board of the game
+        :type board: Any
+        :return: a tuple of scores in case anyone wins
+        :rtype: tuple
+        """
         is_won = False
 
         rows = list()
@@ -166,7 +207,16 @@ class Game:
         elif is_won and player == "O":
             return (-1, 0, 0)
 
-    def is_end_of_game(self, depth: int, board):
+    def is_end_of_game(self, depth: int, board: Any) -> bool:
+        """Checks for the end of the game. The game ends if it's a tie, a win or max depth is reached.
+        
+        :param depth: maximum depth of the game search tree
+        :type depth: int
+        :param board: the state of the board
+        :type board: Any
+        :return: check for end of game
+        :rtype: bool
+        """
         if self.is_tie(board):
             return True
         elif self.is_won("X", board) is not None:
@@ -178,7 +228,18 @@ class Game:
         return False
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
-        """Player X, i.e. AI."""
+        """Maximizing player, i.e. opponent.
+        Applies alpha-beta pruning and recursively calls the minimizer to return the best moves.
+        
+        :param alpha: alpha for alpha-beta pruning
+        :type alpha: float
+        :param beta: beta for alpha-beta pruning
+        :type beta: float
+        :param depth: max depth of the game search tree
+        :type depth: int
+        :return: a tuple of max_value and coordinates for MAX
+        :rtype: tuple
+        """
         max_value = -2
         # initialize maximizer's coordinates
         max_x, max_y = None, None
@@ -218,7 +279,18 @@ class Game:
         return max_value, max_x, max_y
 
     def min_value(self, alpha: float, beta: float, depth: int) -> tuple:
-        """Player O, i.e. our code."""
+        """Minimizing player, i.e. this code.
+        Applies alpha-beta pruning and recursively calls the maximizer to return the best moves.
+        
+        :param alpha: alpha for alpha-beta pruning
+        :type alpha: float
+        :param beta: beta for alpha-beta pruning
+        :type beta: float
+        :param depth: max depth of the game search tree
+        :type depth: int
+        :return: a tuple of min_value and coordinates for MIN
+        :rtype: tuple
+        """
         min_value = 2
         # initialize minimizer's coordinates
         min_x, min_y = None, None
@@ -259,7 +331,25 @@ class Game:
 
 
 def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
-    """Play the game."""
+    """Plays the game. 
+
+    This function creates the n x n game_id with target = m for the given player.
+    If the player happens to be a second mover, the API is called to return the recent moves.
+    Otherwise, the player makes the first move by calling minimax function.
+    Then, the player waits for the opponent to make a legal move.
+    This continues until the end of the game, at which point, final wins or ties are printed.
+
+    :param opponent_team_id: team id of the opponent
+    :type opponent_team_id: int
+    :param n: size of the board
+    :type n: int
+    :param m: target of the board
+    :type m: int
+    :param game_id: game id
+    :type game_id: int
+    :param player: player running this code
+    :type player: str
+    """
     max_depth = 3
     game = Game(n=n, m=m, player=player)
 

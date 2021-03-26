@@ -60,7 +60,7 @@ def make_a_move(game_id: int, move: tuple):
 
 
 def get_move_list(game_id: int, count: int = 1):
-    """Get list of recent moves made for the game instance. Defaults to 2 recent moves."""
+    """Get list of recent moves made for the game instance. Defaults to 1 recent move."""
     get_moves_url = (
         "/aip2pgaming/api/index.php?type=moves&gameId="
         + str(game_id)
