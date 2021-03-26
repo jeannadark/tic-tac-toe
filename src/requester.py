@@ -8,14 +8,17 @@ TEAM_ID = "1244"
 url = "https://www.notexponential.com/aip2pgaming/api/index.php"
 
 
-def create_game(opponent_team: int):
+def create_game(opponent_team: int, n: int, m: int):
     """Create a game instance and return game ID."""
     payload = (
         "teamId1="
         + TEAM_ID
         + "&teamId2="
         + str(opponent_team)
-        + "&type=game&gameType=TTT"
+        + "&type=game&gameType=TTT&boardSize="
+        + str(n)
+        + '&target='
+        + str(m)
     )
     headers = {
         "x-api-key": API_KEY,

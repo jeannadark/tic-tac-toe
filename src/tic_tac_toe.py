@@ -315,6 +315,7 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
             time.sleep(1)
         
         updated_moves = req.get_move_list(game_id)
+        print(updated_moves["moves"][0])
         for move in updated_moves["moves"][0]:
             symbol = move["symbol"]
             x = int(move["move"].split(",")[0])
@@ -344,10 +345,10 @@ if __name__ == "__main__":
     game_id = int(
         input("Enter Game ID if joining another game. To create your own, enter 0: ")
     )
+    n, m = input("Enter n and m for an n x n game with target m: ").split()
     opponent_team_id = int(input("Please enter opponent team id: \n"))
     if game_id == 0:
-        game_id = req.create_game(opponent_team_id)
+        game_id = req.create_game(opponent_team_id, int(n), int(m))
         print("Game ID is " + str(game_id) + "\n")
-    n, m = input("Enter n and m for an n x n game with target m: ").split()
     player = str(input("Play as X or O?\n"))
     play_game(opponent_team_id, int(n), int(m), game_id, player)
