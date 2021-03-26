@@ -2,7 +2,7 @@
 Generalized Tic Tac Toe - an n by n board game where each player chooses one of the parts X or O, and then playsin an alternate order to placehischoice on the board. A player wins when they are able to place m consecutive symbols (0s or Xs) in a contiguous sequence (row, column or diagonal). The game may end in a draw when no one wins. 
 
 ## Implementation
-The following program is written in Python programming language. The reasons behind this choice were **faster execution** ,**variety of libraries.** Two .py files were created:tic_tac_toe.py comprises of the overall tic tac toe game logic, requester.py comprises of the API requests used within tic_tac_toe file to run the game on the API.
+The following program is written in Python programming language. The reasons behind this choice were **faster execution** ,**variety of libraries.** Two .py files were created: tic_tac_toe.py comprises of the overall tic tac toe game logic, requester.py comprises of the API requests used within the tic_tac_toe file to run the game on the API.
 Libraries used:
 
 - copy
