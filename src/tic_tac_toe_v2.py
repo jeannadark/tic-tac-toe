@@ -265,16 +265,17 @@ def play_game(opponent_team_id: int, n: int, m: int, game_id: int, player: str):
     max_depth = 3
     game = Game(n=n, m=m, player=player)
 
-    try:
-        while req.get_move_list(game_id)["moves"][0]["symbol"] != game.oppo_player:
-            time.sleep(1)   
-        initial_move = req.get_move_list(game_id)["moves"][0]
-        x = int(initial_move["move"].split(",")[0])
-        y = int(initial_move["move"].split(",")[1])
-        game.curr_board_state[x][y] = initial_move["symbol"]
-        game.draw_board()
-    except:
-        pass
+    if player == 'X':
+        try:
+            while req.get_move_list(game_id)["moves"][0]["symbol"] != game.oppo_player:
+                time.sleep(1)   
+            initial_move = req.get_move_list(game_id)["moves"][0]
+            x = int(initial_move["move"].split(",")[0])
+            y = int(initial_move["move"].split(",")[1])
+            game.curr_board_state[x][y] = initial_move["symbol"]
+            game.draw_board()
+        except:
+            pass
 
     while not game.is_end_of_game(max_depth, game.curr_board_state):
         game.copy_board_state = deepcopy(game.curr_board_state)
