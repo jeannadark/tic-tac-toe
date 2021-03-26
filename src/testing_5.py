@@ -75,8 +75,23 @@ class Game:
             flip_diag = np.flipud(self.copy_board_state).diagonal(offset = i)
             b_diag2 = np.flipud(self.copy_board_state).diagonal(offset = i, axis1=1, axis2=0)
 
-            if len(diag) >= self.target and 'O' not in diag and 'X' in diag:
-                cons_x_diag += 1
+            charseq = dict()
+            charseq['X'] = 0
+            charseq['O'] = 0
+            if len(diag) >= self.target:
+                for i in range(0, len(diag)-1):
+                    if diag[i] == diag[i+1] and diag[i] == 'X':
+                        charseq['X'] += 1
+                    elif diag[i] == diag[i+1] and diag[i] == '.'
+                        charseq['X'] += 1
+                        charseq['O'] += 1
+                    elif diag[i] != diag[i+1] and diag[i] == '.' and diag[i+1] == 'X':
+                        charseq['X'] += 1
+                    elif diag[i] != diag[i+1] and diag[i+1] == '.' and diag[i] == 'X':
+                        charseq['X'] += 1
+                    
+
+
             if len(flip_diag) >= self.target and 'O' not in flip_diag and 'X' in flip_diag:
                 cons_x_diag += 1
             if len(b_diag1) >= self.target and 'O' not in b_diag1 and 'X' in b_diag1:
@@ -85,7 +100,7 @@ class Game:
                 cons_x_diag += 1
             if len(diag) >= self.target and 'X' not in diag and 'O' in diag:
                 cons_y_diag += 1
-            if len(flip_diag) >= self.target and 'X' not in flip_diag and 'O' in flip_diag::
+            if len(flip_diag) >= self.target and 'X' not in flip_diag and 'O' in flip_diag:
                 cons_y_diag += 1
             if len(b_diag1) >= self.target and 'X' not in b_diag1 and 'O' in b_diag1:
                 cons_y_diag += 1
