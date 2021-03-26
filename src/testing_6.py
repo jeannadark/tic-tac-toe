@@ -156,7 +156,7 @@ class Game:
         rows = list()
         cols = list()
         diags = list()
-        winning_pattern = ["{}".format(player)] * self.target
+        winning_pattern = [player] * self.target
 
         for i in range(board.shape[0]):
             rows.append(board[i].tolist())
