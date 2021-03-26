@@ -156,28 +156,31 @@ class Game:
         rows = list()
         cols = list()
         diags = list()
-        winning_pattern = [player] * self.target
+        winning_pattern = player * self.target
 
         for i in range(board.shape[0]):
-            rows.append(board[i].tolist())
+            sublist = board[i].tolist()
+            ele = ''.join(sublist)
+            if winning_pattern in ele:
+                is_won = True
         for i in range(board.shape[1]):
-            cols.append(board[:, i].tolist())
+            sublist = board[:, i].tolist()
+            ele = ''.join(sublist)
+            if winning_pattern in ele:
+                is_won = True
         for i in range(board.shape[1]):
-            d1 = np.diagonal(board, offset=i)
-            d2 = np.diagonal(board, offset=i, axis1=1, axis2=0)
-            d3 = np.flipud(board).diagonal(offset=i)
-            d4 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0)
-            diags.append(d1.tolist())
-            diags.append(d2.tolist())
-            diags.append(d3.tolist())
-            diags.append(d4.tolist())
+            d1 = np.diagonal(board, offset=i).tolist()
+            d2 = np.diagonal(board, offset=i, axis1=1, axis2=0).tolist()
+            d3 = np.flipud(board).diagonal(offset=i).tolist()
+            d4 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0).tolist()
+            ele1 = ''.join(d1)
+            ele2 = ''.join(d2)
+            ele3 = ''.join(d3)
+            ele4 = ''.join(d4)
 
-        if (
-            winning_pattern in rows
-            or winning_pattern in cols
-            or winning_pattern in diags
-        ):
-            is_won = True
+            if winning_pattern in ele1 or winning_pattern in ele2 or winning_pattern in ele3 or winning_pattern in ele4:
+                is_won = True
+
         if is_won and player == "X":
             return (1, 0, 0)
         elif is_won and player == "O":
