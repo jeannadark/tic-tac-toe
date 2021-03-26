@@ -74,6 +74,7 @@ class Game:
             non_main_diag = np.diagonal(x, offset=i, axis1=1, axis2=0)
             flip_main_diag = np.flipud(self.copy_board_state).diagonal(offset=i)
             flip_non_main_diag = np.flipud(self.copy_board_state).diagonal(offset=i, axis1=1, axis2=0)
+
             if len(diag) >= self.target and 'O' not in diag:
                 cons_x_diag += 1
             if len(flip_main_diag) >= self.target and 'O' not in flip_main_diag:
@@ -131,20 +132,13 @@ class Game:
         for c in range(n):
             yield [(r, c) for r in range(n)]
         diag_idx = []
-        flip_diag_idx = []
-        for i in range(n):
+        for i in range(self.target - self.n, n):
             r, c = kth_diag_indices(self.curr_board_state, i)
             if len(r) >= self.target:
                 for k in range(0, len(r)):
                     diag_idx.append((r[k], c[k]))
-        for i in range(n):
-            r, c = kth_diag_indices(np.flipud(self.curr_board_state), i)
-            if len(r) >= self.target:
-                for k in range(0, len(r)):
-                    flip_diag_idx.append((r[k], c[k]))
-        print(diag_idx)
         yield diag_idx
-        yield flip_diag_idx
+
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
