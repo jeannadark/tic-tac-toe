@@ -96,9 +96,9 @@ class Game:
                 if board[r][c] == player:
                     cnt += 1
                 else:
-                    cnt -= 1
-            if cnt == self.target:
-                is_won = True
+                    cnt = 0
+                if cnt == self.target:
+                    is_won = True
         if is_won and player == 'X':
             return (1, 0, 0)
         if is_won and player == 'O':
