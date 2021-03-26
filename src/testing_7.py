@@ -64,9 +64,9 @@ class Game:
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
-            b_diag1 = np.diagonal(board, offset=i, axis1=1, axis2=0)
+            b_diag1 = np.diagonal(board, offset=i+1, axis1=1, axis2=0)
             flip_diag = np.flipud(board).diagonal(offset=i)
-            b_diag2 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0)
+            b_diag2 = np.flipud(board).diagonal(offset=i+1, axis1=1, axis2=0)
 
             if len(diag) >= self.target:
                 for i in range(0, len(diag)):

@@ -69,36 +69,11 @@ class Game:
                 elif "X" not in sub_col and "O" in sub_col:
                     cons_y_col += 1
 
-        for i in range(0, self.n - 1):
-            for j in range(0, self.n):
-                if cons_x_col == self.target:
-                    return (1, 0, 0)
-                elif cons_y_col == self.target:
-                    return (-1, 0, 0)
-                if board[i][j] == "X":
-                    cons_x_col = 0
-                elif board[i][j] == "O":
-                    cons_y_col = 0
-                if (
-                    board[i][j] == board[i + 1][j]
-                    and board[i][j] == "X"
-                    and (Counter(board[:, j])["X"] + Counter(board[:, j])["."])
-                    >= self.target
-                ):
-                    cons_x_col += 1
-                elif (
-                    board[i][j] == board[i + 1][j]
-                    and board[i][j] == "O"
-                    and (Counter(board[:, j])["O"] + Counter(board[:, j])["."])
-                    >= self.target
-                ):
-                    cons_y_col += 1
-
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
-            b_diag1 = np.diagonal(board, offset=i, axis1=1, axis2=0)
+            b_diag1 = np.diagonal(board, offset=i+1, axis1=1, axis2=0)
             flip_diag = np.flipud(board).diagonal(offset=i)
-            b_diag2 = np.flipud(board).diagonal(offset=i, axis1=1, axis2=0)
+            b_diag2 = np.flipud(board).diagonal(offset=i+1, axis1=1, axis2=0)
 
             if len(diag) >= self.target:
                 for i in range(0, len(diag)):
