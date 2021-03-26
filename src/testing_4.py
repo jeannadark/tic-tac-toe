@@ -3,6 +3,7 @@ import requester as req
 from copy import deepcopy
 from collections import Counter
 import time
+from helper import kth_diag_indices
 
 
 class Game:
@@ -90,7 +91,11 @@ class Game:
     def is_won(self, player, board):
         is_won = False
         for indexes in self.check_indexes(self.target):
-            if all(board[r][c] == player for r, c in indexes):
+            cnt = 0
+            for r, c in indexes:
+                if board[r][c] == player:
+                    cnt += 1
+            if cnt == self.target:
                 is_won = True
         if is_won and player == 'X':
             return (1, 0, 0)
@@ -113,8 +118,20 @@ class Game:
             yield [(r, c) for c in range(n)]
         for c in range(n):
             yield [(r, c) for r in range(n)]
-        yield [(i, i) for i in range(n)]
-        yield [(i, n - 1 - i) for i in range(n)]
+        diag_idx = []
+        flip_diag_idx = []
+        for i in range(n):
+            r, c = kth_diag_indices(self.curr_board_state, i)
+            if len(r) == self.target:
+                for k in range(0, len(r)):
+                    diag_idx.append((r[k], c[k]))
+        for i in range(n):
+            r, c = kth_diag_indices(np.flipud(self.curr_board_state), i)
+            if len(r) == self.target:
+                for k in range(0, len(r)):
+                    flip_diag_idx.append((r[k], c[k]))
+        yield diag_idx
+        yield flip_diag_idx
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
