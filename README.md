@@ -5,9 +5,12 @@ Generalized Tic Tac Toe - an n by n board game where each player chooses one of 
 The following program is written in Python programming language. The reasons behind this choice were **faster execution** ,**variety of libraries.** Two .py files were created: tic_tac_toe.py comprises of the overall tic tac toe game logic, requester.py comprises of the API requests used within the tic_tac_toe file to run the game on the API.
 Libraries used:
 
+- ast
 - copy
 - time
 - numpy
+- requests
+- http.client
 - collections
 
 
@@ -37,3 +40,4 @@ Play as X (if entering someone's game) or O (if game is your own)?
 2. **play_game()** initializes the game board and runs the game itself calling the API requestes from the requester.py file and running the min_value() and max_values() functions while constantly checking the end_game/ winning states of the game.
 3. **heuristics()** function primarily helps the minimax algorithm to identify the bestmove based on the moves performed previously and the remaining cells along the board
 4. **is_tie(), is_won() , is_end_of_game()** - according to the naming of the funcitons they are responsible for checking the state of the game.
+5. requester.py file contains functions **create_game() , make_a_move() , get_move_list() , get_board_map()** that are responsible for establishing the connection to POSTMAN API and performing the actions according to their namings. 
