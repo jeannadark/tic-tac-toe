@@ -166,7 +166,7 @@ class Game:
         for i in range(board.shape[1]):
             sublist = board[:, i].tolist()
             ele = ''.join(sublist)
-            if winning_pattern in ele:
+            if winning_pattern in ele and is_won == False:
                 is_won = True
         for i in range(board.shape[1]):
             d1 = np.diagonal(board, offset=i).tolist()
@@ -178,7 +178,7 @@ class Game:
             ele3 = ''.join(d3)
             ele4 = ''.join(d4)
 
-            if winning_pattern in ele1 or winning_pattern in ele2 or winning_pattern in ele3 or winning_pattern in ele4:
+            if winning_pattern in ele1 or winning_pattern in ele2 or winning_pattern in ele3 or winning_pattern in ele4 and is_won == False:
                 is_won = True
 
         if is_won and player == "X":
