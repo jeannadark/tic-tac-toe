@@ -71,7 +71,7 @@ class Game:
         
         for i in range(self.copy_board_state.shape[1]):
             diag = np.diagonal(self.copy_board_state, offset = i)
-            non_main_diag = np.diagonal(x, offset=i, axis1=1, axis2=0)
+            non_main_diag = np.diagonal(self.copy_board_state, offset=i, axis1=1, axis2=0)
             flip_main_diag = np.flipud(self.copy_board_state).diagonal(offset=i)
             flip_non_main_diag = np.flipud(self.copy_board_state).diagonal(offset=i, axis1=1, axis2=0)
 
