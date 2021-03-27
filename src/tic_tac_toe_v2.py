@@ -86,12 +86,16 @@ class Game:
                     break
                 if "O" not in sub_row and Counter(sub_row)["X"] >= 1 and Counter(sub_row)['X'] <  self.target // 2:
                     cons_x_row += 20
-                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target // 2:
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target // 2 and Counter(sub_row)["X"] < self.target - 1:
                     cons_x_row += 40
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target - 1:
+                    cons_x_row += 60
                 elif "X" not in sub_row and Counter(sub_row)["O"] >= 1 and Counter(sub_row)["O"] < self.target // 2:
                     cons_y_row += 10
-                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target //2:
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target //2 and Counter(sub_row)["O"] < self.target - 1:
                     cons_y_row += 20
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target - 1:
+                    cons_y_row += 30
                 else:
                     cons_x_row += 10
                     cons_y_row += 5
@@ -105,12 +109,16 @@ class Game:
                     break
                 if "O" not in sub_col and Counter(sub_col)["X"] >= 1 and Counter(sub_col)["X"] < self.target // 2:
                     cons_x_col += 20
-                elif "O" not in sub_col and Counter(sub_col)["X"] >= self.target // 2:
+                elif "O" not in sub_col and Counter(sub_col)["X"] >= self.target // 2 and Counter(sub_col)["X"] < self.target - 1:
                     cons_x_col += 40
+                elif "O" not in sub_col and Counter(sub_col)["X"] >= self.target - 1:
+                    cons_x_col += 60
                 elif "X" not in sub_col and Counter(sub_col)["O"] >= 1 and Counter(sub_col)["O"] < self.target // 2:
                     cons_y_col += 10
-                elif "X" not in sub_col and Counter(sub_col)["O"] >= self.target // 2:
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= self.target // 2 and Counter(sub_col)["O"] < self.target - 1:
                     cons_y_col += 20
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= self.target - 1:
+                    cons_y_col += 30
                 else:
                     cons_x_col += 10
                     cons_y_col += 5
@@ -129,12 +137,16 @@ class Game:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
                         cons_x_diag += 20
-                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2:
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
                         cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
                         cons_y_diag += 10
-                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2:
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
                         cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
                     else:
                         cons_x_diag += 10
                         cons_y_diag += 5
@@ -147,12 +159,16 @@ class Game:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
                         cons_x_diag += 20
-                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2:
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
                         cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
                         cons_y_diag += 10
-                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2:
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
                         cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
                     else:
                         cons_x_diag += 10
                         cons_y_diag += 5
@@ -165,12 +181,16 @@ class Game:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
                         cons_x_diag += 20
-                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2:
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
                         cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
                         cons_y_diag += 10
-                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2:
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
                         cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
                     else:
                         cons_x_diag += 10
                         cons_y_diag += 5
@@ -183,12 +203,16 @@ class Game:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
                         cons_x_diag += 20
-                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2:
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
                         cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
                         cons_y_diag += 10
-                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2:
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
                         cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
                     else:
                         cons_x_diag += 10
                         cons_y_diag += 5
