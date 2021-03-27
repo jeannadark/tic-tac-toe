@@ -85,9 +85,9 @@ class Game:
                 except:
                     break
                 if "O" not in sub_row and Counter(sub_row)["X"] >= 2:
-                    cons_x_row += 100
+                    cons_x_row += 2
                 elif "X" not in sub_row and Counter(sub_row)["O"] >= 2:
-                    cons_y_row += 50
+                    cons_y_row += 1
 
         for i in range(0, self.n):
             col = board[:, i]
@@ -97,9 +97,9 @@ class Game:
                 except:
                     break
                 if "O" not in sub_col and Counter(sub_col)["X"] >= 2:
-                    cons_x_col += 100
+                    cons_x_col += 2
                 elif "X" not in sub_col and Counter(sub_col)["O"] >= 2:
-                    cons_y_col += 50
+                    cons_y_col += 1
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
@@ -114,9 +114,9 @@ class Game:
                     except:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
-                        cons_x_diag += 100
+                        cons_x_diag += 2
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 50
+                        cons_y_diag += 1
 
             if len(b_diag1) >= self.target:
                 for i in range(0, len(b_diag1)):
@@ -125,9 +125,9 @@ class Game:
                     except:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
-                        cons_x_diag += 100
+                        cons_x_diag += 2
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 50
+                        cons_y_diag += 1
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -136,9 +136,9 @@ class Game:
                     except:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
-                        cons_x_diag += 100
+                        cons_x_diag += 2
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 50
+                        cons_y_diag += 1
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -147,17 +147,17 @@ class Game:
                     except:
                         break
                     if "O" not in sub_diag and Counter(sub_diag)["X"] >= 2:
-                        cons_x_diag += 100
+                        cons_x_diag += 2
                     elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 2:
-                        cons_y_diag += 50
+                        cons_y_diag += 1
 
         max_wins_x = cons_x_row + cons_x_col + cons_x_diag
         max_wins_y = cons_y_row + cons_y_col + cons_y_diag
 
         if max_wins_x > max_wins_y:
-            return (max_wins_x - max_wins_y, 0, 0)
+            return (max_wins_x, 0, 0)
         elif max_wins_x < max_wins_y:
-            return (-(max_wins_y - max_wins_x), 0, 0)
+            return (-max_wins_y, 0, 0)
         else:
             return (0, 0, 0)
 
