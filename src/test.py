@@ -117,11 +117,11 @@ class Game:
         max_wins_y = cons_y_row + cons_y_col + cons_y_diag
 
         if max_wins_x > max_wins_y:
-            return (1, 0, 0)
+            return (100, 0, 0)
         elif max_wins_x < max_wins_y:
-            return (-1, 0, 0)
+            return (-100, 0, 0)
         else:
-            return (0, 0, 0)
+            return (50, 0, 0)
 
     def is_won(self, player, board):
 
@@ -156,9 +156,9 @@ class Game:
                 is_won = True
 
         if is_won and player == "X":
-            return (1, 0, 0)
+            return (100, 0, 0)
         elif is_won and player == "O":
-            return (-1, 0, 0)
+            return (-100, 0, 0)
 
     def is_end_of_game(self, depth: int, board):
         if self.is_tie(board):
@@ -173,7 +173,7 @@ class Game:
 
     def max_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player X, i.e. AI."""
-        max_value = -2
+        max_value = -float('inf')
         # initialize maximizer's coordinates
         max_x, max_y = None, None
 
@@ -213,7 +213,7 @@ class Game:
 
     def min_value(self, alpha: float, beta: float, depth: int) -> tuple:
         """Player O, i.e. our code."""
-        min_value = 2
+        min_value = float('inf')
         # initialize minimizer's coordinates
         min_x, min_y = None, None
 
