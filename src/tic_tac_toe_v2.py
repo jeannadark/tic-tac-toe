@@ -151,8 +151,8 @@ class Game:
                     elif "X" not in sub_diag and 'O' in sub_diag:
                         cons_y_diag += Counter(sub_diag)["O"]
 
-        max_wins_x = cons_x_row + cons_x_col + cons_x_diag
-        max_wins_y = cons_y_row + cons_y_col + cons_y_diag
+        max_wins_x = max(cons_x_row, cons_x_col, cons_x_diag)
+        max_wins_y = max(cons_y_row, cons_y_col, cons_y_diag)
 
         if max_wins_x > max_wins_y:
             return (100, 0, 0)
