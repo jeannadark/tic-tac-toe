@@ -43,41 +43,41 @@ class Game:
                 except:
                     break
                 if Counter(sub_row)["X"] == 1:
-                    score += 1
-                elif Counter(sub_row)["X"] == 2:
-                    score += 10
-                elif Counter(sub_row)["X"] == 3:
-                    score += 100
-                elif self.target == 5 and Counter(sub_row)["X"] == 4:
-                    score += 1000
-                elif self.target == 6 and Counter(sub_row)["X"] == 5:
-                    score += 10000
-                elif self.target == 10 and Counter(sub_row)["X"] == 6:
-                    score += 100000
-                elif self.target == 10 and Counter(sub_row)["X"] == 7:
-                    score += 1000000
-                elif self.target == 10 and Counter(sub_row)["X"] == 8:
-                    score += 10000000
-                elif self.target == 10 and Counter(sub_row)["X"] == 9:
-                    score += 100000000
-                if Counter(sub_row)["O"] == 1:
                     score += -1
-                elif Counter(sub_row)["O"] == 2:
+                elif Counter(sub_row)["X"] == 2:
                     score += -10
-                elif Counter(sub_row)["O"] == 3:
+                elif Counter(sub_row)["X"] == 3:
                     score += -100
-                elif self.target == 5 and Counter(sub_row)["O"] == 4:
+                elif self.target == 5 and Counter(sub_row)["X"] == 4:
                     score += -1000
-                elif self.target == 6 and Counter(sub_row)["O"] == 5:
+                elif self.target == 6 and Counter(sub_row)["X"] == 5:
                     score += -10000
-                elif self.target == 10 and Counter(sub_row)["O"] == 6:
+                elif self.target == 10 and Counter(sub_row)["X"] == 6:
                     score += -100000
-                elif self.target == 10 and Counter(sub_row)["O"] == 7:
+                elif self.target == 10 and Counter(sub_row)["X"] == 7:
                     score += -1000000
-                elif self.target == 10 and Counter(sub_row)["O"] == 8:
+                elif self.target == 10 and Counter(sub_row)["X"] == 8:
                     score += -10000000
-                elif self.target == 10 and Counter(sub_row)["O"] == 9:
+                elif self.target == 10 and Counter(sub_row)["X"] == 9:
                     score += -100000000
+                if Counter(sub_row)["O"] == 1:
+                    score += 1
+                elif Counter(sub_row)["O"] == 2:
+                    score += 10
+                elif Counter(sub_row)["O"] == 3:
+                    score += 100
+                elif self.target == 5 and Counter(sub_row)["O"] == 4:
+                    score += 1000
+                elif self.target == 6 and Counter(sub_row)["O"] == 5:
+                    score += 10000
+                elif self.target == 10 and Counter(sub_row)["O"] == 6:
+                    score += 100000
+                elif self.target == 10 and Counter(sub_row)["O"] == 7:
+                    score += 1000000
+                elif self.target == 10 and Counter(sub_row)["O"] == 8:
+                    score += 10000000
+                elif self.target == 10 and Counter(sub_row)["O"] == 9:
+                    score += 100000000
 
         for i in range(0, self.n):
             col = board[:, i]
