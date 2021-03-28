@@ -48,20 +48,20 @@ class Game:
                 except:
                     break
                 if "O" not in sub_row and Counter(sub_row)["X"] >= 1 and Counter(sub_row)['X'] <  self.target // 2:
-                    cons_x_row += 20
-                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target // 2 and Counter(sub_row)["X"] < self.target - 1:
                     cons_x_row += 40
-                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target - 1:
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target // 2 and Counter(sub_row)["X"] < self.target - 1:
                     cons_x_row += 60
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target - 1:
+                    cons_x_row += 80
                 elif "X" not in sub_row and Counter(sub_row)["O"] >= 1 and Counter(sub_row)["O"] < self.target // 2:
-                    cons_y_row += 10
-                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target //2 and Counter(sub_row)["O"] < self.target - 1:
                     cons_y_row += 20
-                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target - 1:
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target //2 and Counter(sub_row)["O"] < self.target - 1:
                     cons_y_row += 30
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target - 1:
+                    cons_y_row += 40
                 else:
-                    cons_x_row += 10
-                    cons_y_row += 5
+                    cons_x_row += 20
+                    cons_y_row += 15
 
         for i in range(0, self.n):
             col = board[:, i]
