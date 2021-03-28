@@ -186,7 +186,7 @@ class Game:
         if max_wins_x > max_wins_y:
             return (max_wins_x, 0, 0)
         elif max_wins_x < max_wins_y:
-            return (max_wins_y, 0, 0)
+            return (-max_wins_y, 0, 0)
         else:
             return (0, 0, 0)
 
