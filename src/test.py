@@ -87,41 +87,41 @@ class Game:
                 except:
                     break
                 if Counter(sub_col)["X"] == 1:
-                    score += 1
-                elif Counter(sub_col)["X"] == 2:
-                    score += 10
-                elif Counter(sub_col)["X"] == 3:
-                    score += 100
-                elif self.target == 5 and Counter(sub_col)["X"] == 4:
-                    score += 1000
-                elif self.target == 6 and Counter(sub_col)["X"] == 5:
-                    score += 10000
-                elif self.target == 10 and Counter(sub_col)["X"] == 6:
-                    score += 100000
-                elif self.target == 10 and Counter(sub_col)["X"] == 7:
-                    score += 1000000
-                elif self.target == 10 and Counter(sub_col)["X"] == 8:
-                    score += 10000000
-                elif self.target == 10 and Counter(sub_col)["X"] == 9:
-                    score += 100000000
-                if Counter(sub_col)["O"] == 1:
                     score += -1
-                elif Counter(sub_col)["O"] == 2:
+                elif Counter(sub_col)["X"] == 2:
                     score += -10
-                elif Counter(sub_col)["O"] == 3:
+                elif Counter(sub_col)["X"] == 3:
                     score += -100
-                elif self.target == 5 and Counter(sub_col)["O"] == 4:
+                elif self.target == 5 and Counter(sub_col)["X"] == 4:
                     score += -1000
-                elif self.target == 6 and Counter(sub_col)["O"] == 5:
+                elif self.target == 6 and Counter(sub_col)["X"] == 5:
                     score += -10000
-                elif self.target == 10 and Counter(sub_col)["O"] == 6:
+                elif self.target == 10 and Counter(sub_col)["X"] == 6:
                     score += -100000
-                elif self.target == 10 and Counter(sub_col)["O"] == 7:
+                elif self.target == 10 and Counter(sub_col)["X"] == 7:
                     score += -1000000
-                elif self.target == 10 and Counter(sub_col)["O"] == 8:
+                elif self.target == 10 and Counter(sub_col)["X"] == 8:
                     score += -10000000
-                elif self.target == 10 and Counter(sub_col)["O"] == 9:
+                elif self.target == 10 and Counter(sub_col)["X"] == 9:
                     score += -100000000
+                if Counter(sub_col)["O"] == 1:
+                    score += 1
+                elif Counter(sub_col)["O"] == 2:
+                    score += 10
+                elif Counter(sub_col)["O"] == 3:
+                    score += 100
+                elif self.target == 5 and Counter(sub_col)["O"] == 4:
+                    score += 1000
+                elif self.target == 6 and Counter(sub_col)["O"] == 5:
+                    score += 10000
+                elif self.target == 10 and Counter(sub_col)["O"] == 6:
+                    score += 100000
+                elif self.target == 10 and Counter(sub_col)["O"] == 7:
+                    score += 1000000
+                elif self.target == 10 and Counter(sub_col)["O"] == 8:
+                    score += 10000000
+                elif self.target == 10 and Counter(sub_col)["O"] == 9:
+                    score += 100000000
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
@@ -136,41 +136,41 @@ class Game:
                     except:
                         break
                     if Counter(sub_diag)["X"] == 1:
-                        score += 1
-                    elif Counter(sub_diag)["X"] == 2:
-                        score += 10
-                    elif Counter(sub_diag)["X"] == 3:
-                        score += 100
-                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
-                        score += 1000
-                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
-                        score += 10000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
-                        score += 100000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
-                        score += 1000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
-                        score += 10000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
-                        score += 100000000
-                    if Counter(sub_diag)["O"] == 1:
                         score += -1
-                    elif Counter(sub_diag)["O"] == 2:
+                    elif Counter(sub_diag)["X"] == 2:
                         score += -10
-                    elif Counter(sub_diag)["O"] == 3:
+                    elif Counter(sub_diag)["X"] == 3:
                         score += -100
-                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
                         score += -1000
-                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
                         score += -10000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
                         score += -100000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
                         score += -1000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
                         score += -10000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
                         score += -100000000
+                    if Counter(sub_diag)["O"] == 1:
+                        score += 1
+                    elif Counter(sub_diag)["O"] == 2:
+                        score += 10
+                    elif Counter(sub_diag)["O"] == 3:
+                        score += 100
+                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                        score += 1000
+                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                        score += 10000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                        score += 100000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                        score += 1000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                        score += 10000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                        score += 100000000
 
             if len(b_diag1) >= self.target:
                 for i in range(0, len(b_diag1)):
@@ -179,41 +179,41 @@ class Game:
                     except:
                         break
                     if Counter(sub_diag)["X"] == 1:
-                        score += 1
-                    elif Counter(sub_diag)["X"] == 2:
-                        score += 10
-                    elif Counter(sub_diag)["X"] == 3:
-                        score += 100
-                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
-                        score += 1000
-                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
-                        score += 10000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
-                        score += 100000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
-                        score += 1000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
-                        score += 10000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
-                        score += 100000000
-                    if Counter(sub_diag)["O"] == 1:
                         score += -1
-                    elif Counter(sub_diag)["O"] == 2:
+                    elif Counter(sub_diag)["X"] == 2:
                         score += -10
-                    elif Counter(sub_diag)["O"] == 3:
+                    elif Counter(sub_diag)["X"] == 3:
                         score += -100
-                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
                         score += -1000
-                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
                         score += -10000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
                         score += -100000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
                         score += -1000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
                         score += -10000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
                         score += -100000000
+                    if Counter(sub_diag)["O"] == 1:
+                        score += 1
+                    elif Counter(sub_diag)["O"] == 2:
+                        score += 10
+                    elif Counter(sub_diag)["O"] == 3:
+                        score += 100
+                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                        score += 1000
+                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                        score += 10000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                        score += 100000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                        score += 1000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                        score += 10000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                        score += 100000000
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -222,41 +222,41 @@ class Game:
                     except:
                         break
                     if Counter(sub_diag)["X"] == 1:
-                        score += 1
-                    elif Counter(sub_diag)["X"] == 2:
-                        score += 10
-                    elif Counter(sub_diag)["X"] == 3:
-                        score += 100
-                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
-                        score += 1000
-                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
-                        score += 10000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
-                        score += 100000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
-                        score += 1000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
-                        score += 10000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
-                        score += 100000000
-                    if Counter(sub_diag)["O"] == 1:
                         score += -1
-                    elif Counter(sub_diag)["O"] == 2:
+                    elif Counter(sub_diag)["X"] == 2:
                         score += -10
-                    elif Counter(sub_diag)["O"] == 3:
+                    elif Counter(sub_diag)["X"] == 3:
                         score += -100
-                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
                         score += -1000
-                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
                         score += -10000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
                         score += -100000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
                         score += -1000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
                         score += -10000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
                         score += -100000000
+                    if Counter(sub_diag)["O"] == 1:
+                        score += 1
+                    elif Counter(sub_diag)["O"] == 2:
+                        score += 10
+                    elif Counter(sub_diag)["O"] == 3:
+                        score += 100
+                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                        score += 1000
+                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                        score += 10000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                        score += 100000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                        score += 1000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                        score += 10000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                        score += 100000000
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -265,41 +265,41 @@ class Game:
                     except:
                         break
                     if Counter(sub_diag)["X"] == 1:
-                        score += 1
-                    elif Counter(sub_diag)["X"] == 2:
-                        score += 10
-                    elif Counter(sub_diag)["X"] == 3:
-                        score += 100
-                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
-                        score += 1000
-                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
-                        score += 10000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
-                        score += 100000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
-                        score += 1000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
-                        score += 10000000
-                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
-                        score += 100000000
-                    if Counter(sub_diag)["O"] == 1:
                         score += -1
-                    elif Counter(sub_diag)["O"] == 2:
+                    elif Counter(sub_diag)["X"] == 2:
                         score += -10
-                    elif Counter(sub_diag)["O"] == 3:
+                    elif Counter(sub_diag)["X"] == 3:
                         score += -100
-                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                    elif self.target == 5 and Counter(sub_diag)["X"] == 4:
                         score += -1000
-                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                    elif self.target == 6 and Counter(sub_diag)["X"] == 5:
                         score += -10000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 6:
                         score += -100000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 7:
                         score += -1000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 8:
                         score += -10000000
-                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                    elif self.target == 10 and Counter(sub_diag)["X"] == 9:
                         score += -100000000
+                    if Counter(sub_diag)["O"] == 1:
+                        score += 1
+                    elif Counter(sub_diag)["O"] == 2:
+                        score += 10
+                    elif Counter(sub_diag)["O"] == 3:
+                        score += 100
+                    elif self.target == 5 and Counter(sub_diag)["O"] == 4:
+                        score += 1000
+                    elif self.target == 6 and Counter(sub_diag)["O"] == 5:
+                        score += 10000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 6:
+                        score += 100000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 7:
+                        score += 1000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 8:
+                        score += 10000000
+                    elif self.target == 10 and Counter(sub_diag)["O"] == 9:
+                        score += 100000000
 
         return (score, 0, 0)
 
