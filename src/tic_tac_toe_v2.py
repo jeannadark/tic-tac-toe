@@ -220,12 +220,10 @@ class Game:
         max_wins_x = cons_x_row + cons_x_col + cons_x_diag - cons_y_row - cons_y_col - cons_y_diag
         max_wins_y = cons_y_row + cons_y_col + cons_y_diag - cons_x_row - cons_x_col - cons_x_diag
 
-        if max_wins_x > max_wins_y:
+        if max_wins_x >= max_wins_y:
             return (max_wins_x, 0, 0)
         elif max_wins_x < max_wins_y:
             return (-max_wins_y, 0, 0)
-        else:
-            return (0, 0, 0)
 
     def is_won(self, player: str, board: Any):
         """Checks for the presence of a winning pattern in rows, columns or any diagonals of the board.
