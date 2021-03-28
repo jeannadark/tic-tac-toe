@@ -184,7 +184,7 @@ class Game:
         max_wins_y = cons_y_row + cons_y_col + cons_y_diag - cons_x_row - cons_x_col - cons_x_diag
 
         if max_wins_x > max_wins_y:
-            return (-max_wins_x, 0, 0)
+            return (max_wins_x, 0, 0)
         elif max_wins_x < max_wins_y:
             return (max_wins_y, 0, 0)
         else:
