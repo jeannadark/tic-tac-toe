@@ -44,23 +44,15 @@ class Game:
                 except:
                     break
 
-                if Counter(sub_row)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 1
-                elif Counter(sub_row)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
+                if Counter(sub_row)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
                     opp_score += 10
-                elif Counter(sub_row)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 100
                 elif Counter(sub_row)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 1000
+                    opp_score += 100
     
-                if Counter(sub_row)["O"] == 2 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 1
-                elif Counter(sub_row)["O"] == 3 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
+                if Counter(sub_row)["O"] == 4 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
                     my_score += 10
-                elif Counter(sub_row)["O"] == 4 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 100
                 elif Counter(sub_row)["O"] == 5 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 1000
+                    my_score += 100
 
         for i in range(0, self.n):
             col = board[:, i]
@@ -70,23 +62,15 @@ class Game:
                 except:
                     break
 
-                if Counter(sub_col)["X"] == 2 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 1
-                elif Counter(sub_col)["X"] == 3 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
+                if Counter(sub_col)["X"] == 4 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
                     opp_score += 10
-                elif Counter(sub_col)["X"] == 4 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 100
                 elif Counter(sub_col)["X"] == 5 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 1000
+                    opp_score += 100
     
-                if Counter(sub_col)["O"] == 2 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 1
-                elif Counter(sub_col)["O"] == 3 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
+                if Counter(sub_col)["O"] == 4 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
                     my_score += 10
-                elif Counter(sub_col)["O"] == 4 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 100
                 elif Counter(sub_col)["O"] == 5 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 1000
+                    my_score += 100
                 
 
         for i in range(board.shape[1]):
@@ -101,23 +85,16 @@ class Game:
                         sub_diag = diag[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
+
+                    if Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
                         opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
                     elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
+                        opp_score += 100
         
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
+                    if Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
                         my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
                     elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                        my_score += 100
                     
 
             if len(b_diag1) >= self.target:
@@ -126,23 +103,16 @@ class Game:
                         sub_diag = b_diag1[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
+
+                    if Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
                         opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
                     elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
+                        opp_score += 100
         
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
+                    if Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
                         my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
                     elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                        my_score += 100
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -150,23 +120,16 @@ class Game:
                         sub_diag = b_diag2[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
+
+                    if Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
                         opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
                     elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
+                        opp_score += 100
         
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
+                    if Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
                         my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
                     elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                        my_score += 100
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -174,23 +137,16 @@ class Game:
                         sub_diag = flip_diag[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
+
+                    if Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
                         opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
                     elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
+                        opp_score += 100
         
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
+                    if Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
                         my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
                     elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                        my_score += 100
 
         return (my_score - opp_score, 0, 0)
 
