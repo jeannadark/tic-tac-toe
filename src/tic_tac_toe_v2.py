@@ -70,8 +70,12 @@ class Game:
         :return: scores for players (+1 for opponent player, -1 for player, 0 for tie)
         :rtype: tuple
         """
-        my_score = 0
-        opp_score = 0
+        cons_x_row = 0
+        cons_x_col = 0
+        cons_x_diag = 0
+        cons_y_row = 0
+        cons_y_col = 0
+        cons_y_diag = 0
 
         for i in range(0, self.n):
             row = board[i]
@@ -80,24 +84,21 @@ class Game:
                     sub_row = row[j : j + self.target]
                 except:
                     break
-
-                if Counter(sub_row)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 1
-                elif Counter(sub_row)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 10
-                elif Counter(sub_row)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 100
-                elif Counter(sub_row)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_row)["."]) == self.target:
-                    opp_score += 1000
-    
-                if Counter(sub_row)["O"] == 2 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 1
-                elif Counter(sub_row)["O"] == 3 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 10
-                elif Counter(sub_row)["O"] == 4 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 100
-                elif Counter(sub_row)["O"] == 5 and (Counter(sub_row)["O"] + Counter(sub_row)["."]) == self.target:
-                    my_score += 1000
+                if "O" not in sub_row and Counter(sub_row)["X"] >= 1 and Counter(sub_row)['X'] <  self.target // 2:
+                    cons_x_row += 20
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target // 2 and Counter(sub_row)["X"] < self.target - 1:
+                    cons_x_row += 40
+                elif "O" not in sub_row and Counter(sub_row)["X"] >= self.target - 1:
+                    cons_x_row += 60
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= 1 and Counter(sub_row)["O"] < self.target // 2:
+                    cons_y_row += 10
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target //2 and Counter(sub_row)["O"] < self.target - 1:
+                    cons_y_row += 20
+                elif "X" not in sub_row and Counter(sub_row)["O"] >= self.target - 1:
+                    cons_y_row += 30
+                else:
+                    cons_x_row += 10
+                    cons_y_row += 5
 
         for i in range(0, self.n):
             col = board[:, i]
@@ -106,25 +107,21 @@ class Game:
                     sub_col = col[j : j + self.target]
                 except:
                     break
-
-                if Counter(sub_col)["X"] == 2 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 1
-                elif Counter(sub_col)["X"] == 3 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 10
-                elif Counter(sub_col)["X"] == 4 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 100
-                elif Counter(sub_col)["X"] == 5 and (Counter(sub_col)["X"] + Counter(sub_col)["."]) == self.target:
-                    opp_score += 1000
-    
-                if Counter(sub_col)["O"] == 2 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 1
-                elif Counter(sub_col)["O"] == 3 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 10
-                elif Counter(sub_col)["O"] == 4 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 100
-                elif Counter(sub_col)["O"] == 5 and (Counter(sub_col)["O"] + Counter(sub_col)["."]) == self.target:
-                    my_score += 1000
-                
+                if "O" not in sub_col and Counter(sub_col)["X"] >= 1 and Counter(sub_col)["X"] < self.target // 2:
+                    cons_x_col += 20
+                elif "O" not in sub_col and Counter(sub_col)["X"] >= self.target // 2 and Counter(sub_col)["X"] < self.target - 1:
+                    cons_x_col += 40
+                elif "O" not in sub_col and Counter(sub_col)["X"] >= self.target - 1:
+                    cons_x_col += 60
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= 1 and Counter(sub_col)["O"] < self.target // 2:
+                    cons_y_col += 10
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= self.target // 2 and Counter(sub_col)["O"] < self.target - 1:
+                    cons_y_col += 20
+                elif "X" not in sub_col and Counter(sub_col)["O"] >= self.target - 1:
+                    cons_y_col += 30
+                else:
+                    cons_x_col += 10
+                    cons_y_col += 5
 
         for i in range(board.shape[1]):
             diag = np.diagonal(board, offset=i)
@@ -138,24 +135,21 @@ class Game:
                         sub_diag = diag[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
-                    elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
-        
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
-                    elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
-                    
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
+                        cons_x_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
+                        cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
+                        cons_y_diag += 10
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
+                        cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
+                    else:
+                        cons_x_diag += 10
+                        cons_y_diag += 5
 
             if len(b_diag1) >= self.target:
                 for i in range(0, len(b_diag1)):
@@ -163,23 +157,21 @@ class Game:
                         sub_diag = b_diag1[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
-                    elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
-        
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
-                    elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
+                        cons_x_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
+                        cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
+                        cons_y_diag += 10
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
+                        cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
+                    else:
+                        cons_x_diag += 10
+                        cons_y_diag += 5
 
             if len(b_diag2) >= self.target:
                 for i in range(0, len(b_diag2)):
@@ -187,23 +179,21 @@ class Game:
                         sub_diag = b_diag2[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
-                    elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
-        
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
-                    elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
+                        cons_x_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
+                        cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
+                        cons_y_diag += 10
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
+                        cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
+                    else:
+                        cons_x_diag += 10
+                        cons_y_diag += 5
 
             if len(flip_diag) >= self.target:
                 for i in range(0, len(flip_diag)):
@@ -211,25 +201,31 @@ class Game:
                         sub_diag = flip_diag[i : i + self.target]
                     except:
                         break
-                    if Counter(sub_diag)["X"] == 2 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1
-                    elif Counter(sub_diag)["X"] == 3 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 10
-                    elif Counter(sub_diag)["X"] == 4 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 100
-                    elif Counter(sub_diag)["X"] == 5 and (Counter(sub_row)["X"] + Counter(sub_diag)["."]) == self.target:
-                        opp_score += 1000
-        
-                    if Counter(sub_diag)["O"] == 2 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1
-                    elif Counter(sub_diag)["O"] == 3 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 10
-                    elif Counter(sub_diag)["O"] == 4 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 100
-                    elif Counter(sub_diag)["O"] == 5 and (Counter(sub_diag)["O"] + Counter(sub_diag)["."]) == self.target:
-                        my_score += 1000
+                    if "O" not in sub_diag and Counter(sub_diag)["X"] >= 1 and Counter(sub_diag)["X"] < self.target // 2:
+                        cons_x_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target // 2 and Counter(sub_diag)["X"] < self.target - 1:
+                        cons_x_diag += 40
+                    elif "O" not in sub_diag and Counter(sub_diag)["X"] >= self.target - 1:
+                        cons_x_diag += 60
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= 1 and Counter(sub_diag)["O"] < self.target // 2:
+                        cons_y_diag += 10
+                    elif "X" not in sub_diag and Counter(sub_diag)["O"] >= self.target // 2 and Counter(sub_diag)["O"] < self.target - 1:
+                        cons_y_diag += 20
+                    elif "O" not in sub_diag and Counter(sub_diag)["O"] >= self.target - 1:
+                        cons_y_diag += 30
+                    else:
+                        cons_x_diag += 10
+                        cons_y_diag += 5
 
-        return (opp_score - my_score, 0, 0)
+        max_wins_x = cons_x_row + cons_x_col + cons_x_diag - cons_y_row - cons_y_col - cons_y_diag
+        max_wins_y = cons_y_row + cons_y_col + cons_y_diag - cons_x_row - cons_x_col - cons_x_diag
+
+        if max_wins_x > max_wins_y:
+            return (max_wins_x, 0, 0)
+        elif max_wins_x < max_wins_y:
+            return (-max_wins_y, 0, 0)
+        else:
+            return (0, 0, 0)
 
     def is_won(self, player: str, board: Any):
         """Checks for the presence of a winning pattern in rows, columns or any diagonals of the board.
