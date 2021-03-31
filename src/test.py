@@ -223,9 +223,9 @@ class Game:
                 is_won = True
 
         if is_won and player == "X":
-            return (-1, 0, 0)
-        elif is_won and player == "O":
             return (1, 0, 0)
+        elif is_won and player == "O":
+            return (-1, 0, 0)
 
     def is_end_of_game(self, depth: int, board):
         if self.is_tie(board):
